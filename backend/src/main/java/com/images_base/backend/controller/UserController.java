@@ -3,6 +3,8 @@ package com.images_base.backend.controller;
 import com.images_base.backend.modal.entity.UserEntity;
 import com.images_base.backend.service.UserService;
 import com.images_base.backend.service.impl.ResponseBodyAnnotation;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import java.util.List;
  * @Author: zhengzhihao
  * @Date: 2021/12/19 21:56
  */
+@Api(value = "user", tags = "用户相关")
 @RestController
 @ResponseBodyAnnotation
 @RequestMapping(path = "/user")
@@ -31,6 +34,7 @@ public class UserController {
      * @return List<UserEntity>
      */
     @GetMapping
+    @ApiOperation(value = "获取所有用户的信息")
     public List<UserEntity> getUsers() {
         return userService.getUsers();
     }
@@ -42,6 +46,7 @@ public class UserController {
      * @return UserEntity
      */
     @GetMapping("/{id:\\d+}")
+    @ApiOperation(value = "获取单个用户信息")
     public UserEntity getUserInfo(@PathVariable Long id) {
         return userService.getUserInfo(id);
     }
