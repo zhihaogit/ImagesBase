@@ -5,7 +5,6 @@ import com.images_base.backend.service.impl.ResponseBodyAnnotation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
@@ -35,6 +34,5 @@ public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
             return body;
         }
         return new ResponseBodyVO(body);
-
     }
 }
