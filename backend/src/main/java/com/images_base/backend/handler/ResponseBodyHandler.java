@@ -1,7 +1,7 @@
 package com.images_base.backend.handler;
 
 import com.images_base.backend.modal.vo.normal.ResponseBodyVO;
-import com.images_base.backend.service.impl.ResponseBodyAnnotation;
+import com.images_base.backend.util.annotation.ResponseBodyAnnotation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;

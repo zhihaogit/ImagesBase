@@ -2,7 +2,7 @@ package com.images_base.backend.controller;
 
 import com.images_base.backend.modal.entity.UserEntity;
 import com.images_base.backend.service.UserService;
-import com.images_base.backend.service.impl.ResponseBodyAnnotation;
+import com.images_base.backend.util.annotation.ResponseBodyAnnotation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
