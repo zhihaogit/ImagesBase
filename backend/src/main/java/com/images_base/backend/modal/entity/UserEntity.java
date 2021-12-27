@@ -20,7 +20,7 @@ public class UserEntity implements Serializable {
 
     @TableField("id")
     @ApiModelProperty(value = "用户ID")
-    private Long id;
+    private Integer id;
 
     @TableField("name")
     @ApiModelProperty(value = "用户名称")
@@ -34,11 +34,11 @@ public class UserEntity implements Serializable {
     @ApiModelProperty(value = "用户邮箱")
     private String email;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -11,6 +11,17 @@ spring:
       username: root
       password: 123456789
 
+images-base-properties:
+  swagger:
+    enable: true
+    title: "图床项目API"
+    description: "图床项目SwaggerAPI管理"
+    version: "1.0"
+    group-name: "ImageBase"
+    base-package: com.images_base.backend.controller
+  jwt:
+    id: images_base
+
 mybatis-plus:
   mapper-locations:
     - classpath:/mappers/*.xml

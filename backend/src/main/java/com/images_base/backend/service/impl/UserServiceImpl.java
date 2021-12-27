@@ -27,7 +27,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public UserEntity getUserInfo(Long id) {
+    public UserEntity getUserInfo(Integer id) {
         log.info("Query user id: {}", id);
         return this.getBaseMapper().getUserInfo(id);
     }

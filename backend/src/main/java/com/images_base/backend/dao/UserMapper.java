@@ -28,6 +28,6 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      * @param id - Integer
      * @return UserEntity
      */
-    UserEntity getUserInfo(@Param("id") Long id);
+    UserEntity getUserInfo(@Param("id") Integer id);
 
 }
