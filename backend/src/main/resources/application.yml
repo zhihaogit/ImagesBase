@@ -6,10 +6,10 @@ spring:
   application:
     name: imagesBase
   datasource:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/images_base?serverTimezone=Asia%2fShanghai&useUnicode=true&characterEncoding=UTF-8
-      username: root
-      password: 123456789
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/images_base?serverTimezone=Asia%2fShanghai&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 123456789
 
 images-base-properties:
   swagger:
@@ -21,6 +21,14 @@ images-base-properties:
     base-package: com.images_base.backend.controller
   jwt:
     id: images_base
+    secret: C60B718C6F6D50A578B0043B4EF43028
+    token-expired-time: 72
+    time-unit: HOURS
+    url-patterns:
+      - "/**"
+    exclude-url-patterns:
+      - "/swagger-ui/**"
+      - "/swagger-resources/**"
 
 mybatis-plus:
   mapper-locations:

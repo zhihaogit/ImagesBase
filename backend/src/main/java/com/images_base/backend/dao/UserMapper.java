@@ -15,6 +15,7 @@ import java.util.List;
  */
 @Mapper
 public interface UserMapper extends BaseMapper<UserEntity> {
+
     /**
      * 获取所有用户的信息
      *
