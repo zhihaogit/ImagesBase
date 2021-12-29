@@ -26,9 +26,9 @@ public interface UserMapper extends BaseMapper<UserEntity> {
     /**
      * 获取单个用户信息
      *
-     * @param id - Integer
+     * @param id - Long
      * @return UserEntity
      */
-    UserEntity getUserInfo(@Param("id") Integer id);
+    UserEntity getUserInfo(@Param("id") Long id);
 
 }

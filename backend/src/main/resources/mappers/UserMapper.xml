@@ -4,13 +4,14 @@
 <mapper namespace="com.images_base.backend.dao.UserMapper">
 
     <select id="getUsers" resultType="com.images_base.backend.modal.entity.UserEntity">
-        SELECT *
-        FROM user
+        SELECT u.*
+        FROM user AS u
+        WHERE u.is_delete = FALSE
     </select>
 
     <select id="getUserInfo" resultType="com.images_base.backend.modal.entity.UserEntity">
-        SELECT *
-        FROM user
-        WHERE id=#{id}
+        SELECT u.*
+        FROM user AS u
+        WHERE u.is_delete = FALSE AND u.id=#{id}
     </select>
 </mapper>

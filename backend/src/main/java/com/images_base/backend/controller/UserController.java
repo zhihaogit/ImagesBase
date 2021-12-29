@@ -42,12 +42,12 @@ public class UserController {
     /**
      * 获取单个用户信息
      *
-     * @param id - Integer
+     * @param id - Long
      * @return UserEntity
      */
     @GetMapping("/{id:\\d+}")
     @ApiOperation(value = "获取单个用户信息")
-    public UserEntity getUserInfo(@PathVariable Integer id) {
+    public UserEntity getUserInfo(@PathVariable Long id) {
         return userService.getUserInfo(id);
     }
 

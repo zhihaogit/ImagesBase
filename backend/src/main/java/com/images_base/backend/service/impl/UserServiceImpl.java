@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> implements UserService {
 
-    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
     public List<UserEntity> getUsers() {
@@ -27,8 +27,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public UserEntity getUserInfo(Integer id) {
-        log.info("Query user id: {}", id);
+    public UserEntity getUserInfo(Long id) {
+        logger.info("Query user id: {}", id);
         return this.getBaseMapper().getUserInfo(id);
     }
 }

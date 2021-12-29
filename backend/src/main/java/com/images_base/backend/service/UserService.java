@@ -22,8 +22,8 @@ public interface UserService extends IService<UserEntity> {
     /**
      * 获取单个用户信息
      *
-     * @param id - Integer
+     * @param id - Long
      * @return UserEntity
      */
-    UserEntity getUserInfo(Integer id);
+    UserEntity getUserInfo(Long id);
 }

@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * Created on 2021/12/28
  */
-public class JWTUtil {
+public class JwtUtil {
 
     @Autowired
     private ImagesBaseProperties imagesBaseProperties;
@@ -30,7 +30,7 @@ public class JWTUtil {
      * @param token - String
      * @return Claims
      */
-    private Claims tokenParser(@NonNull String token) {
+    public Claims tokenParser(@NonNull String token) {
         SecretKey key = secretKeyBuilder();
         Claims claims;
         try {
@@ -52,7 +52,7 @@ public class JWTUtil {
      * @param userId - Integer
      * @return String
      */
-    private String tokenBuilder(Integer userId) {
+    public String tokenBuilder(Integer userId) {
         long nowTimeMills = System.currentTimeMillis();
         Date nowDate = new Date(nowTimeMills);
         return Jwts.builder()

@@ -1,11 +1,11 @@
 package com.images_base.backend.modal.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import java.io.Serializable;
 
 /**
  * @ClassName: UserEntity
@@ -14,32 +14,44 @@ import java.io.Serializable;
  * @Date: 2021/12/19 21:42
  */
 @TableName("user")
-@ApiModel(value = "用户实体类")
-public class UserEntity implements Serializable {
-    public static final long serialVersionUID = 42L;
+@ApiModel("用户实体类")
+public class UserEntity extends BaseEntity {
 
-    @TableField("id")
-    @ApiModelProperty(value = "用户ID")
-    private Integer id;
+    @TableField("password")
+    @ApiModelProperty("密码")
+    private String password;
 
     @TableField("name")
-    @ApiModelProperty(value = "用户名称")
+    @ApiModelProperty("用户名称")
     private String name;
 
     @TableField("age")
-    @ApiModelProperty(value = "用户年龄")
+    @ApiModelProperty("用户年龄")
     private Integer age;
 
     @TableField("email")
-    @ApiModelProperty(value = "用户邮箱")
+    @ApiModelProperty("用户邮箱")
     private String email;
 
-    public Integer getId() {
-        return id;
+    @TableLogic(value = "0", delval = "1")
+    @TableField(insertStrategy = FieldStrategy.NOT_NULL)
+    @ApiModelProperty("是否删除")
+    private Boolean isDelete;
+
+    public String getPassword() {
+        return password;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Boolean getDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
     }
 
     public String getName() {

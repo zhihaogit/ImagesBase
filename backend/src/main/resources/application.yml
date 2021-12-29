@@ -29,6 +29,8 @@ images-base-properties:
     exclude-url-patterns:
       - "/swagger-ui/**"
       - "/swagger-resources/**"
+      - "/v3/api-docs"
+      - "/**/call_back/**"
 
 mybatis-plus:
   mapper-locations:

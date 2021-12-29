@@ -9,7 +9,6 @@ public class ResponseBodyVO {
 
     private String msg;
 
-
     private Object data;
 
     public ResponseBodyVO(Object data) {
@@ -35,5 +34,13 @@ public class ResponseBodyVO {
 
     public void setData(Object data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "ResponseBodyVO{" +
+                "msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
     }
 }
