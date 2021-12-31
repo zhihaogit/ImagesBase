@@ -4,14 +4,13 @@
 <mapper namespace="com.images_base.backend.dao.RoleMapper">
     <select id="getRolesByUseId" resultType="com.images_base.backend.modal.vo.role.RoleVO">
         SELECT
-        r.id AS roleId,
-        r.NAME AS roleName,
+        r.id AS role_id,
+        r.NAME AS role_name,
         r.created_at,
         r.updated_at,
         u.user_id
         FROM role AS r
-        LEFT JOIN (SELECT role_id, user_id, updated_at, is_delete FROM user_role_association) AS u
-        ON u.role_id = r.id
+        LEFT JOIN user_role_association AS u ON u.role_id = r.id
         WHERE r.is_delete = FALSE AND u.is_delete = FALSE AND u.user_id = #{userId}
         ORDER BY u.updated_at, r.updated_at;
     </select>

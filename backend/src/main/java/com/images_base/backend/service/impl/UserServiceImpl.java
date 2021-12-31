@@ -3,6 +3,7 @@ package com.images_base.backend.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.images_base.backend.dao.UserMapper;
 import com.images_base.backend.modal.entity.UserEntity;
+import com.images_base.backend.modal.vo.user.UserVO;
 import com.images_base.backend.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,5 +31,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     public UserEntity getUserInfo(Long id) {
         logger.info("Query user id: {}", id);
         return this.getBaseMapper().getUserInfo(id);
+    }
+
+    @Override
+    public UserVO getUserRolesInfo(String name) {
+        return this.getBaseMapper().getUserRolesInfo(name);
     }
 }

@@ -1,4 +1,4 @@
-package com.images_base.backend.filter;
+package com.images_base.backend.security.filter;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;

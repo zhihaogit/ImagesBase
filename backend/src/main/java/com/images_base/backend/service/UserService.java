@@ -2,6 +2,7 @@ package com.images_base.backend.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.images_base.backend.modal.entity.UserEntity;
+import com.images_base.backend.modal.vo.user.UserVO;
 
 import java.util.List;
 
@@ -26,4 +27,12 @@ public interface UserService extends IService<UserEntity> {
      * @return UserEntity
      */
     UserEntity getUserInfo(Long id);
+
+    /**
+     * 获取单个用户及角色信息
+     *
+     * @param name - String
+     * @return UserVO
+     */
+    UserVO getUserRolesInfo(String name);
 }

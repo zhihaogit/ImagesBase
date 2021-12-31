@@ -1,4 +1,4 @@
-package com.images_base.backend.util;
+package com.images_base.backend.security.util;
 
 import com.images_base.backend.config.properties.ImagesBaseProperties;
 import io.jsonwebtoken.Claims;

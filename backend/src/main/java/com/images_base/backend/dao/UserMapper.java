@@ -2,6 +2,7 @@ package com.images_base.backend.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.images_base.backend.modal.entity.UserEntity;
+import com.images_base.backend.modal.vo.user.UserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -30,5 +31,13 @@ public interface UserMapper extends BaseMapper<UserEntity> {
      * @return UserEntity
      */
     UserEntity getUserInfo(@Param("id") Long id);
+
+    /**
+     * 获取单个用户及角色信息
+     *
+     * @param name - String
+     * @return UserVO
+     */
+    UserVO getUserRolesInfo(@Param("name") String name);
 
 }

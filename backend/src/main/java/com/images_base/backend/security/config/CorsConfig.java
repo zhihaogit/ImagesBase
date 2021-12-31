@@ -1,4 +1,4 @@
-package com.images_base.backend.config;
+package com.images_base.backend.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
