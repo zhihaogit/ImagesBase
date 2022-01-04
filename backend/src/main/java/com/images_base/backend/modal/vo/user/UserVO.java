@@ -25,4 +25,11 @@ public class UserVO extends UserEntity {
     public void setRoles(List<RoleVO> roles) {
         this.roles = roles;
     }
+
+    @Override
+    public String toString() {
+        return "UserVO{" +
+                "roles=" + roles +
+                '}';
+    }
 }

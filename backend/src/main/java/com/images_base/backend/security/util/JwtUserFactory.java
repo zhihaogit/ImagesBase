@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  */
 public class JwtUserFactory {
 
-    public JwtUserFactory() {
+    private JwtUserFactory() {
     }
 
     public static JwtUser create(UserVO user) {

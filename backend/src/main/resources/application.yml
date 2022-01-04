@@ -12,16 +12,16 @@ spring:
     password: 123456789
 
 images-base-properties:
-  swagger:
+  swagger-properties:
     enable: true
     title: "图床项目API"
     description: "图床项目SwaggerAPI管理"
     version: "1.0"
     group-name: "ImageBase"
     base-package: com.images_base.backend.controller
-  jwt:
+  jwt-properties:
     id: images_base
-    secret: C60B718C6F6D50A578B0043B4EF43028
+    secret: aW1hZ2VzX2Jhc2VfYmFja2VuZF9zZXJ2ZXJfdjEuMF9zYWx0XzcyX2hvdXJzX2V4cGlyZXM=
     token-expired-time: 72
     time-unit: HOURS
     url-patterns:
@@ -48,3 +48,8 @@ mybatis-plus:
       db-config:
         logic-delete-value: 1
         logic-not-delete-value: 0
+
+logging:
+  level:
+    root: info
+    com.images_base.backend.dao: debug

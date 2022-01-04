@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 /**
  * @author zhengzhihao
  * <p>
@@ -24,7 +26,7 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         UserVO user = userService.getUserRolesInfo(s);
 
-        if (null == user) {
+        if (Objects.isNull(user)) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", s));
         } else {
             return JwtUserFactory.create(user);

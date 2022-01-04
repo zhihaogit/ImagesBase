@@ -21,7 +21,7 @@ import java.sql.SQLException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
      * 基础异常处理
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BaseException.class)
     public ResponseBodyVO runtimeExceptionHandler(BaseException e, HttpServletResponse response) {
-        log.warn(e.getLocalizedMessage());
+        logger.warn(e.getLocalizedMessage());
         e.printStackTrace();
         response.setStatus(e.getStatus().value());
         return new ResponseBodyVO("Runtime错误：", e.getLocalizedMessage());
@@ -47,7 +47,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SQLException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseBodyVO sqlExceptionHandler(SQLException e) {
-        log.info("SQL错误：{}", e.getMessage());
+        logger.info("SQL错误：{}", e.getMessage());
         return new ResponseBodyVO("SQL错误：", e.getMessage());
     }
 
@@ -60,7 +60,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseBodyVO missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException e) {
-        log.info("请求缺少参数：{}", e.getParameterName());
+        logger.info("请求缺少参数：{}", e.getParameterName());
         return new ResponseBodyVO("请求缺少参数：", e.getParameterName());
     }
 }

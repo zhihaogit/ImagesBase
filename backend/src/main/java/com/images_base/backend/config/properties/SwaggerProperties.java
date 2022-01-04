@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * Created on 2021/12/27
  */
 @Component
-@ConfigurationProperties(prefix = "images-base-properties.swagger")
+@ConfigurationProperties(prefix = "images-base-properties.swagger-properties")
 public class SwaggerProperties {
 
     private boolean enable;
@@ -20,7 +20,7 @@ public class SwaggerProperties {
 
     private String version;
 
-    private  String groupName;
+    private String groupName;
 
     private String basePackage;
 

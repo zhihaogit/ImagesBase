@@ -14,16 +14,24 @@
         WHERE u.is_delete = FALSE AND u.id=#{id}
     </select>
 
-    <resultMap id="getPropertyChildren" type="com.images_base.backend.modal.vo.user.UserVO">
+    <resultMap id="rolesMap" type="com.images_base.backend.modal.vo.user.UserVO">
+        <id property="id" column="id"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <result column="email" property="email"/>
+        <!--        <result column="is_delete" property="isDelete"/>-->
+        <result column="updated_at" property="updatedAt"/>
+        <result column="created_at" property="createdAt"/>
         <collection property="roles" ofType="com.images_base.backend.modal.vo.role.RoleVO"
                     columnPrefix="roles_">
-            <id column="role_id" property="roleId"/>
-            <id column="role_name" property="roleName"/>
-            <id column="user_id" property="userId"/>
+            <result column="role_id" property="roleId"/>
+            <result column="role_name" property="roleName"/>
+            <result column="user_id" property="userId"/>
         </collection>
     </resultMap>
 
-    <select id="getUserRolesInfo" resultType="com.images_base.backend.modal.vo.user.UserVO">
+    <select id="getUserRolesInfo" resultMap="rolesMap">
         SELECT
         us.*,
         ro.role_id AS roles_role_id,

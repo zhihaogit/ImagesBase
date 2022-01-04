@@ -11,7 +11,7 @@ import java.util.Set;
  * Created on 2021/12/27
  */
 @Component
-@ConfigurationProperties(prefix = "images-base-properties.jwt")
+@ConfigurationProperties(prefix = "images-base-properties.jwt-properties")
 public class JwtProperties {
 
     private String id;

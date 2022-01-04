@@ -22,5 +22,10 @@ public abstract class BaseException extends RuntimeException {
         super(message, cause);
     }
 
+    /**
+     * 不同异常对应的响应码
+     *
+     * @return HttpStatus
+     */
     public abstract HttpStatus getStatus();
 }

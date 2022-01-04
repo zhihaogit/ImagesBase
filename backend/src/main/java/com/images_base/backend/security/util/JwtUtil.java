@@ -7,6 +7,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -19,10 +20,10 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * Created on 2021/12/28
  */
+@Component
 public class JwtUtil {
 
-    @Autowired
-    private ImagesBaseProperties imagesBaseProperties;
+    private static ImagesBaseProperties imagesBaseProperties;
 
     /**
      * 解析 token
@@ -30,7 +31,7 @@ public class JwtUtil {
      * @param token - String
      * @return Claims
      */
-    public Claims tokenParser(@NonNull String token) {
+    public static Claims tokenParser(@NonNull String token) {
         SecretKey key = secretKeyBuilder();
         Claims claims;
         try {
@@ -52,7 +53,7 @@ public class JwtUtil {
      * @param userId - Integer
      * @return String
      */
-    public String tokenBuilder(Integer userId) {
+    public static String tokenBuilder(Long userId) {
         long nowTimeMills = System.currentTimeMillis();
         Date nowDate = new Date(nowTimeMills);
         return Jwts.builder()
@@ -69,7 +70,7 @@ public class JwtUtil {
      *
      * @return SecretKey
      */
-    private SecretKey secretKeyBuilder() {
+    private static SecretKey secretKeyBuilder() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(imagesBaseProperties.getJwtProperties().getSecret()));
     }
 
@@ -79,7 +80,7 @@ public class JwtUtil {
      * @param nowTimeMills - long
      * @return Date
      */
-    private Date expireMillisBuilder(long nowTimeMills) {
+    private static Date expireMillisBuilder(long nowTimeMills) {
         TimeUnit timeUnit = TimeUnit.valueOf(imagesBaseProperties.getJwtProperties().getTimeUnit());
         long expireInMilliTime = timeUnit.toMillis(imagesBaseProperties.getJwtProperties().getTokenExpiredTime());
         long expireTimeMillis = nowTimeMills + expireInMilliTime;
@@ -89,12 +90,17 @@ public class JwtUtil {
     /**
      * 生成 payload
      *
-     * @param userId - Integer
-     * @return Map<String, Integer>
+     * @param userId - Long
+     * @return Map<String, Long>
      */
-    private Map<String, Integer> claimsBuilder(Integer userId) {
-        Map<String, Integer> map = new HashMap<>(16);
+    private static Map<String, Long> claimsBuilder(Long userId) {
+        Map<String, Long> map = new HashMap<>(1);
         map.put("userId", userId);
         return map;
+    }
+
+    @Autowired
+    public void setImagesBaseProperties(ImagesBaseProperties imagesBaseProperties) {
+        JwtUtil.imagesBaseProperties = imagesBaseProperties;
     }
 }

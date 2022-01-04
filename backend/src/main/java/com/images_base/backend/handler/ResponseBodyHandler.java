@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @RestControllerAdvice(annotations = ResponseBodyAnnotation.class)
 public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
 
-    private static final Logger log = LoggerFactory.getLogger(ResponseBodyHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(ResponseBodyHandler.class);
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
@@ -29,7 +29,7 @@ public class ResponseBodyHandler implements ResponseBodyAdvice<Object> {
 
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        log.debug("获取响应体：{}", body);
+        logger.debug("获取响应体：{}", body);
         if (body instanceof byte[] || body instanceof ResponseBodyVO) {
             return body;
         }
