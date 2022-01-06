@@ -2,6 +2,8 @@ package com.images_base.backend.config;
 
 import com.images_base.backend.config.properties.ImagesBaseProperties;
 import com.images_base.backend.filter.JwtAuthorizationFilter;
+import com.images_base.backend.handler.CustomAccessDeniedHandler;
+import com.images_base.backend.handler.CustomAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +30,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtAuthorizationFilter jwtAuthorizationFilter;
+
+    @Autowired
+    private CustomAuthenticationEntryPoint authenticateFailHandler;
+
+    @Autowired
+    private CustomAccessDeniedHandler accessDeniedHandler;
 
     /**
      * 使用 Spring Security推荐的加密方式进行登录密码的加密
@@ -65,6 +73,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                 .anyRequest()
                                 .authenticated()
                 )
-                .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticateFailHandler)
+                .accessDeniedHandler(accessDeniedHandler);
     }
 }
