@@ -1,18 +1,17 @@
 package com.images_base.backend.controller;
 
-import com.images_base.backend.modal.entity.UserEntity;
+import com.images_base.backend.modal.entity.JwtUser;
+import com.images_base.backend.modal.vo.user.UserBriefVO;
 import com.images_base.backend.service.UserService;
 import com.images_base.backend.util.annotation.ResponseBodyAnnotation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName: UserContoller
@@ -24,11 +23,15 @@ import java.util.List;
 @RestController
 @ResponseBodyAnnotation
 @RequestMapping(path = "/user")
-@PreAuthorize("hasRole('ADMIN')")
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @PostMapping("/login")
+    public Map<String, String> userLogin(@RequestBody JwtUser user) {
+        return userService.login(user);
+    }
 
     /**
      * 获取所有用户的信息
@@ -37,7 +40,8 @@ public class UserController {
      */
     @GetMapping
     @ApiOperation(value = "获取所有用户的信息")
-    public List<UserEntity> getUsers() {
+    @PreAuthorize("hasAnyAuthority('user:browse:*')")
+    public List<UserBriefVO> getUsers() {
         return userService.getUsers();
     }
 
@@ -49,7 +53,8 @@ public class UserController {
      */
     @GetMapping("/{id:\\d+}")
     @ApiOperation(value = "获取单个用户信息")
-    public UserEntity getUserInfo(@PathVariable Long id) {
+    @PreAuthorize("hasAnyAuthority('user:browse:*')")
+    public UserBriefVO getUserInfo(@PathVariable Long id) {
         return userService.getUserInfo(id);
     }
 

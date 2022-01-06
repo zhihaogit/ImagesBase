@@ -10,19 +10,19 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * @author zhengzhihao
  * <p>
- * Created on 2021/12/29
+ * Created on 2022/1/6
  */
-@TableName("role")
-@ApiModel("角色类")
-public class RoleEntity extends BaseEntity {
+@TableName("feat")
+@ApiModel("权限功能类")
+public class FeatEntity extends BaseEntity {
 
     @TableField("name")
-    @ApiModelProperty("角色字段")
+    @ApiModelProperty("功能字段")
     private String name;
 
-    @TableField("role_name")
-    @ApiModelProperty("角色名称")
-    private String roleName;
+    @TableField("feat_name")
+    @ApiModelProperty("功能名称")
+    private String featName;
 
     @TableLogic(value = "0", delval = "1")
     @TableField(insertStrategy = FieldStrategy.NOT_NULL)
@@ -37,12 +37,12 @@ public class RoleEntity extends BaseEntity {
         this.name = name;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public String getFeatName() {
+        return featName;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public void setFeatName(String featName) {
+        this.featName = featName;
     }
 
     public Boolean getDelete() {

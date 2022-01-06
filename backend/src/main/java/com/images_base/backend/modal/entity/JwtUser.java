@@ -1,4 +1,4 @@
-package com.images_base.backend.security.entity;
+package com.images_base.backend.modal.entity;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

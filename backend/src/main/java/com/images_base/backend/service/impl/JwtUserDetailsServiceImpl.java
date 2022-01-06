@@ -1,8 +1,8 @@
-package com.images_base.backend.security.service.impl;
+package com.images_base.backend.service.impl;
 
-import com.images_base.backend.modal.vo.user.UserVO;
-import com.images_base.backend.security.util.JwtUserFactory;
+import com.images_base.backend.modal.vo.user.UserFeatVO;
 import com.images_base.backend.service.UserService;
+import com.images_base.backend.util.JwtUserFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,10 +24,12 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        UserVO user = userService.getUserRolesInfo(s);
+        UserFeatVO user = userService.getUserFeatsInfo(s);
 
         if (Objects.isNull(user)) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", s));
+        } else if (user.getFeats().isEmpty()) {
+            throw new UsernameNotFoundException(String.format("Username '%s' is no auth.", s));
         } else {
             return JwtUserFactory.create(user);
         }

@@ -1,8 +1,8 @@
-package com.images_base.backend.security.util;
+package com.images_base.backend.util;
 
-import com.images_base.backend.modal.vo.role.RoleVO;
-import com.images_base.backend.modal.vo.user.UserVO;
-import com.images_base.backend.security.entity.JwtUser;
+import com.images_base.backend.modal.entity.FeatEntity;
+import com.images_base.backend.modal.entity.JwtUser;
+import com.images_base.backend.modal.vo.user.UserFeatVO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -19,20 +19,19 @@ public class JwtUserFactory {
     private JwtUserFactory() {
     }
 
-    public static JwtUser create(UserVO user) {
+    public static JwtUser create(UserFeatVO user) {
         return new JwtUser(
                 user.getId(),
                 user.getName(),
                 user.getPassword(),
                 user.getEmail(),
-                mapToGrantedAuthorities(user.getRoles())
+                mapToGrantedAuthorities(user.getFeats())
         );
     }
 
-    private static List<GrantedAuthority> mapToGrantedAuthorities(List<RoleVO> roles) {
-        return roles.stream()
-                .map(RoleVO::getRoleName)
-                .map(SimpleGrantedAuthority::new)
+    private static List<GrantedAuthority> mapToGrantedAuthorities(List<FeatEntity> feats) {
+        return feats.stream()
+                .map(feat -> new SimpleGrantedAuthority(feat.getName()))
                 .collect(Collectors.toList());
     }
 }

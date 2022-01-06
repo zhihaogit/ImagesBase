@@ -1,7 +1,7 @@
-package com.images_base.backend.security.config;
+package com.images_base.backend.config;
 
 import com.images_base.backend.config.properties.ImagesBaseProperties;
-import com.images_base.backend.security.filter.JwtAuthorizationFilter;
+import com.images_base.backend.filter.JwtAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * @author zhengzhihao
@@ -25,6 +26,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private ImagesBaseProperties imagesBaseProperties;
 
+    @Autowired
+    private JwtAuthorizationFilter jwtAuthorizationFilter;
+
     /**
      * 使用 Spring Security推荐的加密方式进行登录密码的加密
      *
@@ -33,11 +37,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public JwtAuthorizationFilter authenticationTokenFilterBean() throws Exception {
-        return new JwtAuthorizationFilter();
     }
 
     @Bean
@@ -65,6 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
-                );
+                )
+                .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

@@ -2,7 +2,8 @@ package com.images_base.backend.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.images_base.backend.modal.entity.UserEntity;
-import com.images_base.backend.modal.vo.user.UserVO;
+import com.images_base.backend.modal.vo.user.UserBriefVO;
+import com.images_base.backend.modal.vo.user.UserFeatVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,24 +21,24 @@ public interface UserMapper extends BaseMapper<UserEntity> {
     /**
      * 获取所有用户的信息
      *
-     * @return List<UserEntity>
+     * @return List<UserBriefVO>
      */
-    List<UserEntity> getUsers();
+    List<UserBriefVO> getUsers();
 
     /**
      * 获取单个用户信息
      *
      * @param id - Long
-     * @return UserEntity
+     * @return UserBriefVO
      */
-    UserEntity getUserInfo(@Param("id") Long id);
+    UserBriefVO getUserInfo(@Param("id") Long id);
 
     /**
-     * 获取单个用户及角色信息
+     * 获取单个用户所有的功能权限
      *
-     * @param name - String
-     * @return UserVO
+     * @param id
+     * @param name
+     * @return
      */
-    UserVO getUserRolesInfo(@Param("name") String name);
-
+    UserFeatVO getUserFeatsInfo(@Param("id") Long id, @Param("name") String name);
 }

@@ -12,8 +12,8 @@ import java.util.List;
  * <p>
  * Created on 2021/12/29
  */
-@ApiModel("用户VO")
-public class UserVO extends UserEntity {
+@ApiModel("用户与角色VO")
+public class UserRoleVO extends UserEntity {
 
     @ApiModelProperty("角色列表")
     List<RoleVO> roles;

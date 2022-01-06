@@ -1,8 +1,10 @@
 package com.images_base.backend;
 
-import com.images_base.backend.modal.vo.user.UserVO;
-import com.images_base.backend.security.util.JwtUtil;
+import com.images_base.backend.modal.entity.FeatEntity;
+import com.images_base.backend.modal.vo.user.UserFeatVO;
+import com.images_base.backend.service.FeatService;
 import com.images_base.backend.service.UserService;
+import com.images_base.backend.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +13,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.List;
 
 @SpringBootTest
 class BackendApplicationTests {
 
-    @Autowired
-    UserService userService;
+    final static String username = "Jone";
 
     @Autowired
+    UserService userService;
+    @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    FeatService featService;
 
     @Test
     void generateJwtToken() {
@@ -47,9 +53,19 @@ class BackendApplicationTests {
 
     @Test
     void contextLoads() {
-        UserVO jone = userService.getUserRolesInfo("Jone");
-        System.out.println(jone.getId());
+    }
 
+    @Test
+    void getFeatByRole() {
+        List<FeatEntity> l = featService.getFeatByRoleId(1L);
+        System.out.println(l.size());
+    }
+
+    @Test
+    void getUserFeat() {
+        UserFeatVO userFeatsInfo = userService.getUserFeatsInfo(username);
+        System.out.println(userFeatsInfo.getId());
+        System.out.println(userFeatsInfo.getFeats().size());
     }
 
 }

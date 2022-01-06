@@ -1,9 +1,11 @@
 package com.images_base.backend.modal.vo.role;
 
+import com.images_base.backend.modal.entity.FeatEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author zhengzhihao
@@ -27,6 +29,9 @@ public class RoleVO {
 
     @ApiModelProperty("更新时间")
     private LocalDateTime updatedAt;
+
+    @ApiModelProperty("功能权限列表")
+    private List<FeatEntity> feats;
 
     public String getRoleName() {
         return roleName;
@@ -68,6 +73,14 @@ public class RoleVO {
         this.updatedAt = updatedAt;
     }
 
+    public List<FeatEntity> getFeats() {
+        return feats;
+    }
+
+    public void setFeats(List<FeatEntity> feats) {
+        this.feats = feats;
+    }
+
     @Override
     public String toString() {
         return "RoleVO{" +
@@ -76,6 +89,7 @@ public class RoleVO {
                 ", userId=" + userId +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
+                ", feats=" + feats +
                 '}';
     }
 }
