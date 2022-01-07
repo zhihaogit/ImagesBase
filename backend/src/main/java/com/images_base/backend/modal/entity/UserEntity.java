@@ -17,6 +17,10 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel("用户实体类")
 public class UserEntity extends BaseEntity {
 
+    public static final String NAME_FIELD = "name";
+
+    public static final String EMAIL_FIELD = "email";
+
     @TableField("password")
     @ApiModelProperty("密码")
     private String password;

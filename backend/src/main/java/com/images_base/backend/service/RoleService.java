@@ -20,4 +20,11 @@ public interface RoleService extends IService<RoleEntity> {
      * @return List<RoleVO>
      */
     List<RoleVO> getRolesByUseId(Long userId);
+
+    /**
+     * 获取访问者角色ID
+     *
+     * @return Long
+     */
+    Long getVisitorRoleId();
 }

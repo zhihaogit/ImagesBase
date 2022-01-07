@@ -32,6 +32,7 @@ images-base-properties:
       - "/v3/api-docs"
       - "/**/call_back/**"
       - "/user/login"
+      - "/user/register"
 
 mybatis-plus:
   mapper-locations:

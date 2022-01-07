@@ -1,10 +1,13 @@
 package com.images_base.backend.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.images_base.backend.modal.entity.JwtUser;
+import com.images_base.backend.modal.dto.UserLoginDTO;
+import com.images_base.backend.modal.dto.UserRegisterDTO;
 import com.images_base.backend.modal.entity.UserEntity;
+import com.images_base.backend.modal.vo.normal.ResponseBodyVO;
 import com.images_base.backend.modal.vo.user.UserBriefVO;
 import com.images_base.backend.modal.vo.user.UserFeatVO;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -20,18 +23,19 @@ public interface UserService extends IService<UserEntity> {
     /**
      * 用户注册
      *
-     * @param userToAdd UserEntity
-     * @return UserEntity
+     * @param user UserRegisterDTO
+     * @return ResponseBodyVO
      */
-    UserEntity register(UserEntity userToAdd);
+    @Transactional(rollbackFor = Exception.class)
+    ResponseBodyVO register(UserRegisterDTO user);
 
     /**
      * 用户登录
      *
-     * @param user JwtUser
+     * @param user LoginUserDTO
      * @return Map<String, String>
      */
-    Map<String, String> login(JwtUser user);
+    Map<String, String> login(UserLoginDTO user);
 
     /**
      * 获取所有用户的信息

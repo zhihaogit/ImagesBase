@@ -26,4 +26,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleEntity> impleme
         logger.info("Query role list by user id: {}", userId);
         return this.getBaseMapper().getRolesByUseId(userId);
     }
+
+    @Override
+    public Long getVisitorRoleId() {
+        return this.getBaseMapper().getVisitorRoleId();
+    }
 }

@@ -14,4 +14,11 @@
         WHERE r.is_delete = FALSE AND u.is_delete = FALSE AND u.user_id = #{userId}
         ORDER BY u.updated_at, r.updated_at;
     </select>
+
+    <select id="getVisitorRoleId" resultType="java.lang.Long">
+        SELECT id
+        FROM role
+        WHERE name = "visitor"
+        AND is_delete = FALSE;
+    </select>
 </mapper>

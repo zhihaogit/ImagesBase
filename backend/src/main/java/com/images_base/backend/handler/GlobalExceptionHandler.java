@@ -32,10 +32,10 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BaseException.class)
     public ResponseBodyVO runtimeExceptionHandler(BaseException e, HttpServletResponse response) {
-        logger.warn(e.getLocalizedMessage());
+        logger.warn("运行时错误：{}", e.getLocalizedMessage());
         e.printStackTrace();
         response.setStatus(e.getStatus().value());
-        return new ResponseBodyVO("Runtime错误：", e.getLocalizedMessage());
+        return new ResponseBodyVO(e.getLocalizedMessage(), null);
     }
 
     /**
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseBodyVO sqlExceptionHandler(SQLException e) {
         logger.info("SQL错误：{}", e.getMessage());
-        return new ResponseBodyVO("SQL错误：", e.getMessage());
+        return new ResponseBodyVO(e.getMessage(), null);
     }
 
     /**
@@ -61,6 +61,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseBodyVO missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException e) {
         logger.info("请求缺少参数：{}", e.getParameterName());
-        return new ResponseBodyVO("请求缺少参数：", e.getParameterName());
+        return new ResponseBodyVO(String.format("请求缺少参数：%s", e.getParameterName()), null);
     }
 }
