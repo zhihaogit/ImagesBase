@@ -47,6 +47,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * 添加认证管理器，用于手动校验用户密码
+     *
+     * @return
+     * @throws Exception
+     */
     @Bean
     @Override
     protected AuthenticationManager authenticationManager() throws Exception {
@@ -67,13 +73,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 禁用 csrf控制
                 .csrf().disable()
+                // 添加不需要管控的 api
                 .authorizeRequests(
                         authorize -> authorize.mvcMatchers(whiteList)
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated()
                 )
+                // 在usernameFilter前面，添加jwt解析filter
                 .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+                // 添加异常处理
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticateFailHandler)
                 .accessDeniedHandler(accessDeniedHandler);

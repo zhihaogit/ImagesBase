@@ -1,5 +1,6 @@
 package com.images_base.backend;
 
+import com.google.gson.Gson;
 import com.images_base.backend.modal.entity.FeatEntity;
 import com.images_base.backend.modal.vo.user.UserFeatVO;
 import com.images_base.backend.service.FeatService;
@@ -13,12 +14,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 
 @SpringBootTest
 class BackendApplicationTests {
 
     final static String username = "Jone";
+    final static String password = "12345";
 
     @Autowired
     UserService userService;
@@ -41,7 +44,7 @@ class BackendApplicationTests {
 
     @Test
     void generateKeyword() {
-        String encode = passwordEncoder.encode("12345");
+        String encode = passwordEncoder.encode(password);
         System.out.println(encode);
     }
 
@@ -67,5 +70,18 @@ class BackendApplicationTests {
         System.out.println(userFeatsInfo.getId());
         System.out.println(userFeatsInfo.getFeats().size());
     }
+
+    @Test
+    void generateBase64UsernamePwd() {
+        Gson gson = new Gson();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("username", username);
+        map.put("password", password);
+        String s = gson.toJson(map);
+        System.out.println(s);
+        String s_base64 = Base64.getEncoder().encodeToString(s.getBytes(StandardCharsets.UTF_8));
+        System.out.println(s_base64);
+    }
+
 
 }

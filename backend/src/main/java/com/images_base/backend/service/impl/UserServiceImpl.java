@@ -68,6 +68,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         if (!Objects.isNull(one)) {
             throw new BadRequestException("存在同名或同邮箱账户");
         }
+
         LocalDateTime now = LocalDateTime.now();
         UserEntity newUser = new UserEntity();
         newUser.setAge(age);
