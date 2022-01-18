@@ -36,4 +36,12 @@ public interface PictureMapper extends BaseMapper<PictureEntity> {
      * @return
      */
     List<PictureEntity> getPictureList();
+
+    /**
+     * 查看图片
+     *
+     * @param pictureId
+     * @return
+     */
+    PictureEntity getOneByPictureId(@Param("pictureId") String pictureId);
 }

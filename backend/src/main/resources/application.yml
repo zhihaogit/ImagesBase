@@ -34,6 +34,7 @@ images-base-properties:
       - "/user/login"
       - "/user/register"
       - "/picture/upload"
+      - "/view/**"
 
 mybatis-plus:
   mapper-locations:

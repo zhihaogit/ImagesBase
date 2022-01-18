@@ -21,6 +21,8 @@ public class PictureEntity extends BaseEntity {
 
     public static final String PICTURE_ID = "picture_id";
 
+    public static final String USE_TIMES = "use_times";
+
     @TableField("use_times")
     @ApiModelProperty("使用次数")
     private Long useTimes;

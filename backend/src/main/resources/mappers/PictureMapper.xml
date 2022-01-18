@@ -41,6 +41,13 @@
         created_at,
         updated_at
         FROM picture
+        WHERE is_delete = FALSE
+        ORDER BY created_at;
+    </select>
+    
+    <select id="getOneByPictureId" resultType="com.images_base.backend.modal.entity.PictureEntity">
+        SELECT *
+        FROM picture
         WHERE is_delete = FALSE;
     </select>
 </mapper>

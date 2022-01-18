@@ -31,4 +31,12 @@ public interface PictureService {
      * @return
      */
     List<PictureEntity> getPictureList();
+
+    /**
+     * 查看图片
+     *
+     * @param pictureId
+     * @return
+     */
+    PictureEntity getOneByPictureId(String pictureId);
 }
