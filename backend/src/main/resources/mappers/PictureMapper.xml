@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.images_base.backend.dao.PictureMapper">
+    <insert id="uploadPicture" parameterType="com.images_base.backend.modal.entity.PictureEntity">
+        INSERT INTO picture
+        (uploader, picture_name, picture_type, picture_id, picture_origin, is_delete, updated_at, created_at)
+        VALUES
+        (#{entity.uploader}, #{entity.pictureName}, #{entity.pictureType}, #{entity.pictureId}, #{entity.pictureOrigin,
+        typeHandler=org.apache.ibatis.type.BlobTypeHandler},
+        #{entity.isDelete}, #{entity.updatedAt}, #{entity.createdAt})
+    </insert>
+
+    <select id="checkDuplication" resultType="java.lang.Integer">
+        SELECT count(picture_name)
+        FROM picture
+        WHERE picture_id=#{pictureId}
+        LIMIT 1;
+    </select>
+
+    <resultMap id="getPictureListMap" type="com.images_base.backend.modal.entity.PictureEntity">
+        <id column="id" property="id"/>
+        <result column="use_times" property="useTimes"/>
+        <result column="uploader" property="uploader"/>
+        <result column="picture_name" property="pictureName"/>
+        <result column="picture_type" property="pictureType"/>
+        <result column="picture_id" property="pictureId"/>
+        <!--        <result column="picture_origin" property="pictureOrigin" typeHandler="org.apache.ibatis.type.BlobTypeHandler"/>-->
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="getPictureList" resultMap="getPictureListMap">
+        SELECT
+        id,
+        use_times,
+        uploader,
+        picture_name,
+        picture_type,
+        picture_id,
+        created_at,
+        updated_at
+        FROM picture
+        WHERE is_delete = FALSE;
+    </select>
+</mapper>

@@ -58,7 +58,7 @@ DROP TABLE IF EXISTS feat;
 CREATE TABLE feat (
     `id`            BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     `name`          VARCHAR(255) COLLATE utf8_bin NULL DEFAULT NULL COMMENT '功能字段',
-    `feat_name`  VARCHAR(255) COLLATE utf8_bin NULL DEFAULT NULL COMMENT '功能名称',
+    `feat_name`     VARCHAR(255) COLLATE utf8_bin NULL DEFAULT NULL COMMENT '功能名称',
     `updated_at`    datetime                      NULL DEFAULT NULL COMMENT '更新时间',
     `created_at`    datetime                      NULL DEFAULT NULL COMMENT '创建时间',
     `is_delete`     tinyint(1)                         DEFAULT '0'  COMMENT '是否被删除',
@@ -74,7 +74,7 @@ INSERT INTO feat (id, name, feat_name) VALUES
 DROP TABLE IF EXISTS role_feat_association;
 CREATE TABLE role_feat_association (
     `id`            BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-    `feat_id`    BIGINT(20) NULL DEFAULT NULL COMMENT '用户ID',
+    `feat_id`       BIGINT(20) NULL DEFAULT NULL COMMENT '用户ID',
     `role_id`       BIGINT(20) NULL DEFAULT NULL COMMENT '角色ID',
     `updated_at`    datetime   NULL DEFAULT NULL COMMENT '更新时间',
     `created_at`    datetime   NULL DEFAULT NULL COMMENT '创建时间',
@@ -88,3 +88,19 @@ INSERT INTO role_feat_association (id, role_id, feat_id) VALUES
 (1, 1, 1),
 (2, 1, 2),
 (3, 2, 1);
+
+DROP TABLE IF EXISTS picture;
+CREATE TABLE picture (
+    `id`                BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `use_times`         BIGINT(20) NULL DEFAULT NULL COMMENT '使用次数',
+    `uploader`          BIGINT(20) NULL DEFAULT NULL COMMENT '上传者ID',
+    `picture_origin`    BLOB NOT NULL COMMENT '图片二进制数据',
+    `picture_type`      VARCHAR(255) COLLATE utf8_bin NULL DEFAULT NULL COMMENT '图片类型',
+    `picture_name`      VARCHAR(255) COLLATE utf8_bin NULL DEFAULT NULL COMMENT '图片名称',
+    `picture_id`        VARCHAR(255) COLLATE utf8_bin NULL DEFAULT NULL COMMENT '图片散列ID',
+    `updated_at`        datetime   NULL DEFAULT NULL COMMENT '更新时间',
+    `created_at`        datetime   NULL DEFAULT NULL COMMENT '创建时间',
+    `is_delete`         tinyint(1)      DEFAULT '0'  COMMENT '是否被删除',
+    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  CHARSET = utf8mb4 COMMENT = '图片存储表';

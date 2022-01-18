@@ -20,8 +20,8 @@ import java.util.List;
 @SpringBootTest
 class BackendApplicationTests {
 
-    final static String username = "Jone";
-    final static String password = "12345";
+    static final String username = "Jone";
+    static final String password = "12345";
 
     @Autowired
     UserService userService;
