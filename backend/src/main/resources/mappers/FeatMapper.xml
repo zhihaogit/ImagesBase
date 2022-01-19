@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.images_base.backend.dao.FeatMapper">
+
+    <select id="getFeatByRoleId" resultType="com.images_base.backend.modal.entity.FeatEntity">
+        SELECT f.*
+        FROM feat AS f
+        LEFT JOIN role_feat_association AS r ON r.feat_id = f.id
+        WHERE r.role_id = #{roleId}
+        AND r.is_delete = FALSE
+        AND f.is_delete = FALSE;
+    </select>
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.images_base.backend.dao.UserMapper">
+    <select id="getUsers" resultType="com.images_base.backend.modal.vo.user.UserBriefVO">
+        SELECT u.*
+        FROM user AS u
+        WHERE u.is_delete = FALSE
+    </select>
+
+    <select id="getUserInfo" resultType="com.images_base.backend.modal.vo.user.UserBriefVO">
+        SELECT u.*
+        FROM user AS u
+        WHERE u.is_delete = FALSE AND u.id=#{id}
+    </select>
+
+    <resultMap id="featsMap" type="com.images_base.backend.modal.vo.user.UserFeatVO">
+        <id column="id" property="id"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <result column="email" property="email"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="created_at" property="createdAt"/>
+        <collection property="feats" ofType="com.images_base.backend.modal.entity.FeatEntity"
+                    columnPrefix="feats_">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="feat_name" property="featName"/>
+        </collection>
+    </resultMap>
+
+    <select id="getUserFeatsInfo" resultMap="featsMap">
+        SELECT
+        a.*,
+        d.id AS feats_id,
+        d.name AS feats_name,
+        d.feat_name AS feats_feat_name
+        FROM user AS a
+        LEFT JOIN user_role_association AS b ON a.id = b.user_id
+        LEFT JOIN role_feat_association AS c ON b.role_id = c.role_id
+        LEFT JOIN feat AS d ON c.feat_id = d.id
+        WHERE a.is_delete = FALSE
+        AND b.is_delete = FALSE
+        AND c.is_delete = FALSE
+        AND d.is_delete = FALSE
+        <if test="null != id">
+            AND a.id = #{id}
+        </if>
+        <if test="null != name">
+            AND a.name = #{name}
+        </if>
+    </select>
+
+</mapper>
