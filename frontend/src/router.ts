@@ -15,6 +15,11 @@ const routes = [
     name: 'upload',
     component: () => import('./pages/upload/index.vue')
   },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('./pages/login/index.vue')
+  },
 ];
 
 const router = createRouter({
