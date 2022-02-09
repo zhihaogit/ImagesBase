@@ -33,7 +33,6 @@ images-base-properties:
       - "/**/call_back/**"
       - "/user/login"
       - "/user/register"
-      - "/picture/upload"
       - "/view/**"
 
 mybatis-plus:
