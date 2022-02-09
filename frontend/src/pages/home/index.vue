@@ -1,16 +1,18 @@
-<script setup>
-import { ref } from 'vue'
-
-defineProps({
-  msg: String
-})
-
-const count = ref(0)
-</script>
-
 <template>
-  <h1>Home</h1>
+  <Layout>
+    <h1>HOME</h1>
+  </Layout>
 </template>
+
+<script lang="ts">
+import Layout from "@/components/layout/index.vue";
+
+export default {
+  components: {
+    Layout,
+  },
+};
+</script>
 
 <style scoped>
 a {
