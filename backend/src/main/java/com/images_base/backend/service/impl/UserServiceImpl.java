@@ -6,11 +6,13 @@ import com.images_base.backend.dao.UserMapper;
 import com.images_base.backend.exception.BadRequestException;
 import com.images_base.backend.modal.dto.UserLoginDTO;
 import com.images_base.backend.modal.dto.UserRegisterDTO;
+import com.images_base.backend.modal.entity.FeatEntity;
 import com.images_base.backend.modal.entity.JwtUser;
 import com.images_base.backend.modal.entity.UserEntity;
 import com.images_base.backend.modal.vo.normal.ResponseBodyVO;
 import com.images_base.backend.modal.vo.user.UserBriefVO;
 import com.images_base.backend.modal.vo.user.UserFeatVO;
+import com.images_base.backend.modal.vo.user.UserInfoVO;
 import com.images_base.backend.service.RoleService;
 import com.images_base.backend.service.UserRoleService;
 import com.images_base.backend.service.UserService;
@@ -18,10 +20,12 @@ import com.images_base.backend.util.CheckPasswordUtil;
 import com.images_base.backend.util.JwtUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName: UserServiceImpl
@@ -62,7 +67,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         }
         String name = user.getUsername();
         String email = user.getEmail();
-        Integer age = user.getAge();
         logger.info("register request username: {}, password: {}, email: {}, age: {}", user.getUsername(), user.getPassword(), user.getEmail(), user.getAge());
         UserEntity one = this.getOne(new QueryWrapper<UserEntity>().eq(UserEntity.NAME_FIELD, name).or().eq(UserEntity.EMAIL_FIELD, email));
         if (!Objects.isNull(one)) {
@@ -71,9 +75,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
         LocalDateTime now = LocalDateTime.now();
         UserEntity newUser = new UserEntity();
-        newUser.setAge(age);
-        newUser.setName(name);
-        newUser.setEmail(email);
+        BeanUtils.copyProperties(user, newUser);
         newUser.setPassword(passwordEncoder.encode(password));
         newUser.setCreatedAt(now);
         newUser.setUpdatedAt(now);
@@ -112,9 +114,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     }
 
     @Override
-    public UserBriefVO getUserInfo(Long id) {
+    public UserInfoVO getUserInfo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long id = (Long) authentication.getPrincipal();
         logger.info("Query user id: {}", id);
-        return this.getBaseMapper().getUserInfo(id);
+        UserFeatVO userFeatsInfo = this.getUserFeatsInfo(id);
+        UserInfoVO userInfoVO = new UserInfoVO();
+        BeanUtils.copyProperties(userFeatsInfo, userInfoVO);
+        userInfoVO.setFeats(userFeatsInfo.getFeats().stream().map(FeatEntity::getName).collect(Collectors.toList()));
+        return userInfoVO;
     }
 
     @Override
