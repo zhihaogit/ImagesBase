@@ -35,7 +35,14 @@
     <el-container>
       <el-header style="text-align: right; font-size: 12px">
         <div class="toolbar">
-          <span>Tom</span>
+          <span>{{ userInfo.name }}</span>
+          <span class="user-logout__separator">|</span>
+          <el-button
+            type="text"
+            @click="logout"
+          >
+            logout
+          </el-button>
         </div>
       </el-header>
 
@@ -49,8 +56,20 @@
 <script lang="ts" setup name="layout">
 import routes from '@/router/list';
 import { computed } from '@vue/runtime-core';
+import userStoreStart from "@/store/user";
+import Cookies from 'js-cookie';
+import { useRouter } from 'vue-router';
+import { RouterNameEnum } from '@/constants/enum/RouterNameEnum';
 
+const router = useRouter();
+const userStore = userStoreStart();
+const userInfo = computed(() => userStore.userInfo);
 const activeRoutes = computed(() => routes.filter(route => route.meta.isMenuShow));
+
+const logout = () => {
+  Cookies.remove('token');
+  router.push(RouterNameEnum.LOGIN);
+};
 </script>
 
 <style scoped>
@@ -83,5 +102,9 @@ const activeRoutes = computed(() => routes.filter(route => route.meta.isMenuShow
   top: 50%;
   right: 20px;
   transform: translateY(-50%);
+}
+
+.layout-container .user-logout__separator {
+  margin: 0 5px;
 }
 </style>
