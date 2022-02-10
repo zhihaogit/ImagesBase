@@ -19,38 +19,25 @@
   </Layout>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup name="upload">
 import Layout from "@/components/layout/index.vue";
 import { ref } from "vue";
 import type { UploadFile } from "element-plus/es/components/upload/src/upload.type";
 
-export default {
-  components: {
-    Layout,
+const fileList = ref([
+  {
+    name: "food.jpeg",
+    url: "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
   },
-
-  setup() {
-    const fileList = ref([
-      {
-        name: "food.jpeg",
-        url: "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
-      },
-      {
-        name: "food2.jpeg",
-        url: "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
-      },
-    ]);
-    const handleRemove = (file: UploadFile, fileList: UploadFile[]) => {
-      console.log(file, fileList);
-    };
-    const handlePreview = (file: UploadFile) => {
-      console.log(file);
-    };
-    return {
-      fileList,
-      handleRemove,
-      handlePreview,
-    }
+  {
+    name: "food2.jpeg",
+    url: "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
   },
+]);
+const handleRemove = (file: UploadFile, fileList: UploadFile[]) => {
+  console.log(file, fileList);
+};
+const handlePreview = (file: UploadFile) => {
+  console.log(file);
 };
 </script>

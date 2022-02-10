@@ -41,20 +41,18 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="login">
 import { reactive, ref } from "vue";
-import type { ElForm } from "element-plus";
 import userStoreStart from "@/store/user";
-import { encode } from 'js-base64';
+import { encode } from "js-base64";
+import type { FormInstanceType } from "@/constants/type/FormInstanceType";
+import { useRouter } from "vue-router";
+import { RouterNameEnum } from "@/constants/enum/RouterNameEnum";
 
 const userStore = userStoreStart();
-
-console.log(userStore)
-
-type FormInstance = InstanceType<typeof ElForm>;
-
+const router = useRouter();
 const pageTitle = "LOGIN";
-const loginFormRef = ref<FormInstance>();
+const loginFormRef = ref<FormInstanceType>();
 const loginForm = reactive({
   username: "",
   password: "",
@@ -76,13 +74,15 @@ const rules = reactive({
   ],
 });
 
-const submitForm = (formEl: FormInstance | undefined) => {
+const submitForm = (formEl: FormInstanceType | undefined) => {
   if (!formEl) return;
   formEl.validate((valid) => {
     if (valid) {
-      userStore.loginRequest(encode(JSON.stringify(loginForm)))
-    } else {
-      return false;
+      userStore.loginRequest(encode(JSON.stringify(loginForm))).then(() => {
+        router.push({
+          name: RouterNameEnum.HOME,
+        });
+      });
     }
   });
 };

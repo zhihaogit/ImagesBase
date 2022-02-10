@@ -1,6 +1,6 @@
 <template>
   <el-container
-    class="layout-container-demo"
+    class="layout-container"
     style="height: 100%"
   >
     <el-aside
@@ -8,36 +8,26 @@
       style="background-color: rgb(238, 241, 246)"
     >
       <el-scrollbar>
-        <el-menu :default-openeds="['1', '3']">
-          <el-sub-menu index="1">
-            <template #title>
-              <el-icon />Navigator One
-            </template>
-            <el-menu-item-group>
+        <el-menu router>
+          <template
+            v-for="route of activeRoutes"
+            :key="route.name"
+          >
+            <el-sub-menu
+              v-if="route.children?.length"
+              :index="route.path"
+            >
               <template #title>
-                Group 1
+                {{ route.meta.title }}
               </template>
-              <el-menu-item index="1-1">
-                Option 1
-              </el-menu-item>
-              <el-menu-item index="1-2">
-                Option 2
-              </el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="Group 2">
-              <el-menu-item index="1-3">
-                Option 3
-              </el-menu-item>
-            </el-menu-item-group>
-            <el-sub-menu index="1-4">
-              <template #title>
-                Option4
-              </template>
-              <el-menu-item index="1-4-1">
-                Option 4-1
-              </el-menu-item>
             </el-sub-menu>
-          </el-sub-menu>
+            <el-menu-item
+              v-else
+              :index="route.path"
+            >
+              <span>{{ route.meta.title }}</span>
+            </el-menu-item>
+          </template>
         </el-menu>
       </el-scrollbar>
     </el-aside>
@@ -56,14 +46,21 @@
   </el-container>
 </template>
 
+<script lang="ts" setup name="layout">
+import routes from '@/router/list';
+import { computed } from '@vue/runtime-core';
+
+const activeRoutes = computed(() => routes.filter(route => route.meta.isMenuShow));
+</script>
+
 <style scoped>
-.layout-container-demo .el-header {
+.layout-container .el-header {
   position: relative;
   background-color: rgb(238, 241, 246);
   color: var(--el-text-color-primary);
 }
 
-.layout-container-demo .el-aside {
+.layout-container .el-aside {
   width: 240px;
   color: var(--el-text-color-primary);
   background: #fff !important;
@@ -71,15 +68,15 @@
   box-sizing: border-box;
 }
 
-.layout-container-demo .el-menu {
+.layout-container .el-menu {
   border-right: none;
 }
 
-.layout-container-demo .el-main {
+.layout-container .el-main {
   padding: 0;
 }
 
-.layout-container-demo .toolbar {
+.layout-container .toolbar {
   position: absolute;
   display: inline-flex;
   align-items: center;
