@@ -8,6 +8,8 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 let userStore: any;
 
 router.beforeEach(async (to, from, next) => {
