@@ -1,5 +1,10 @@
+import { HttpStatusEnum } from '@/constants/enum/HttpStatusEnum';
 import axios from 'axios'
+// 按需引用 element-plus的组件，需要同时手动导入组件样式
 import { ElMessage } from 'element-plus'
+import router from '@/router'
+import { RouterNameEnum } from '@/constants/enum/RouterNameEnum';
+import Cookies from 'js-cookie'
 
 const instance = axios.create({
   baseURL: '/api',
@@ -11,23 +16,29 @@ const instance = axios.create({
 });
 
 // 添加请求拦截器
-axios.interceptors.request.use(
-  (config) => {
-    console.log('req', config)
-  // const { authorization } = store.state.app
-  //   if (authorization) {
-  //     config.headers.Authorization = `Bearer ${authorization.token}`
-  //   }
+instance.interceptors.request.use(
+  config => {
+    const token = Cookies.get('token');
+    if (config.headers && token) {
+      config.headers.token = token;
+    }
   return config;
   },
   error => Promise.reject(error)
 );
 
 // 添加响应拦截器
-axios.interceptors.response.use(
+instance.interceptors.response.use(
   response => response,
-  (error) => {
-    console.log('res：error', error)
+  error => {
+    if (HttpStatusEnum.UNAUTHORIZED === error.response.status) {
+      ElMessage.error(error.response.data.msg);
+      if (RouterNameEnum.LOGIN !== router.currentRoute.value.name) {
+        router.push({
+          name: RouterNameEnum.LOGIN
+        })
+      }
+    }
     return Promise.reject(error);
   }
 );
