@@ -2,7 +2,7 @@ import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
 const instance = axios.create({
-  baseURL: '/api/',
+  baseURL: '/api',
   timeout: 10000,
   withCredentials: true,
   headers: {
@@ -12,26 +12,24 @@ const instance = axios.create({
 
 // 添加请求拦截器
 axios.interceptors.request.use(
-  function (config) {
-    console.log(config)
+  (config) => {
+    console.log('req', config)
   // const { authorization } = store.state.app
   //   if (authorization) {
   //     config.headers.Authorization = `Bearer ${authorization.token}`
   //   }
   return config;
-},
-function (error) {
-  return Promise.reject(error);
-});
+  },
+  error => Promise.reject(error)
+);
 
 // 添加响应拦截器
 axios.interceptors.response.use(
-  function (response) {
-  return response;
-},
-function (error) {
-  return Promise.reject(error);
-});
-
+  response => response,
+  (error) => {
+    console.log('res：error', error)
+    return Promise.reject(error);
+  }
+);
 
 export default instance;

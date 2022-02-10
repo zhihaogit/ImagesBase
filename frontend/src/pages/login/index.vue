@@ -80,7 +80,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate((valid) => {
     if (valid) {
-      console.log("submit!", loginForm, JSON.stringify(loginForm), encode(JSON.stringify(loginForm)));
       userStore.loginRequest(encode(JSON.stringify(loginForm)))
     } else {
       return false;
