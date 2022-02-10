@@ -5,6 +5,7 @@ import com.images_base.backend.modal.dto.UserLoginDTO;
 import com.images_base.backend.modal.dto.UserRegisterDTO;
 import com.images_base.backend.modal.vo.normal.ResponseBodyVO;
 import com.images_base.backend.modal.vo.user.UserBriefVO;
+import com.images_base.backend.modal.vo.user.UserInfoVO;
 import com.images_base.backend.service.UserService;
 import com.images_base.backend.util.annotation.ResponseBodyAnnotation;
 import io.swagger.annotations.Api;
@@ -70,7 +71,7 @@ public class UserController {
      *
      * @return List<UserEntity>
      */
-    @GetMapping
+    @GetMapping("/list")
     @ApiOperation(value = "获取所有用户的信息")
     @PreAuthorize("hasAnyAuthority('user:browse:*')")
     public List<UserBriefVO> getUsers() {
@@ -78,16 +79,14 @@ public class UserController {
     }
 
     /**
-     * 获取单个用户信息
+     * 获取单个用户信息及权限信息
      *
-     * @param id - Long
-     * @return UserEntity
+     * @return UserInfoVO
      */
-    @GetMapping("/{id:\\d+}")
-    @ApiOperation(value = "获取单个用户信息")
-    @PreAuthorize("hasAnyAuthority('user:browse:*')")
-    public UserBriefVO getUserInfo(@PathVariable Long id) {
-        return userService.getUserInfo(id);
+    @GetMapping("/info")
+    @ApiOperation(value = "获取单个用户信息及权限信息")
+    public UserInfoVO getUserInfo() {
+        return userService.getUserInfo();
     }
 
 }

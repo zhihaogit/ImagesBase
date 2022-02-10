@@ -7,6 +7,7 @@ import com.images_base.backend.modal.entity.UserEntity;
 import com.images_base.backend.modal.vo.normal.ResponseBodyVO;
 import com.images_base.backend.modal.vo.user.UserBriefVO;
 import com.images_base.backend.modal.vo.user.UserFeatVO;
+import com.images_base.backend.modal.vo.user.UserInfoVO;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -45,12 +46,11 @@ public interface UserService extends IService<UserEntity> {
     List<UserBriefVO> getUsers();
 
     /**
-     * 获取单个用户信息
+     * 获取单个用户信息及权限信息
      *
-     * @param id - Long
-     * @return UserBriefVO
+     * @return UserInfoVO
      */
-    UserBriefVO getUserInfo(Long id);
+    UserInfoVO getUserInfo();
 
     /**
      * 获取单个用户所有的功能权限

@@ -8,12 +8,6 @@
         WHERE u.is_delete = FALSE
     </select>
 
-    <select id="getUserInfo" resultType="com.images_base.backend.modal.vo.user.UserBriefVO">
-        SELECT u.*
-        FROM user AS u
-        WHERE u.is_delete = FALSE AND u.id=#{id}
-    </select>
-
     <resultMap id="featsMap" type="com.images_base.backend.modal.vo.user.UserFeatVO">
         <id column="id" property="id"/>
         <result column="password" property="password"/>

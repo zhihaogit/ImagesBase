@@ -26,14 +26,6 @@ public interface UserMapper extends BaseMapper<UserEntity> {
     List<UserBriefVO> getUsers();
 
     /**
-     * 获取单个用户信息
-     *
-     * @param id - Long
-     * @return UserBriefVO
-     */
-    UserBriefVO getUserInfo(@Param("id") Long id);
-
-    /**
      * 获取单个用户所有的功能权限
      *
      * @param id
