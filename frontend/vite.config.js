@@ -8,11 +8,12 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   server: {
+    port: 5000,
     proxy: {
-      '/api': {
-        target: 'http://localhost:8000',
+      '^/api': {
+        target: 'http://192.168.31.74:8000/',
         changeOrigin: true,
-        rewrite: (url) => url.replace(/^\/api/, ''),
+        rewrite: url => url.replace(/^\/api/, ''),
       }
     },
   },
