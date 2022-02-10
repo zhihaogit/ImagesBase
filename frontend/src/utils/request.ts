@@ -34,9 +34,7 @@ instance.interceptors.response.use(
     if (HttpStatusEnum.UNAUTHORIZED === error.response.status) {
       ElMessage.error(error.response.data.msg);
       if (RouterNameEnum.LOGIN !== router.currentRoute.value.name) {
-        router.push({
-          name: RouterNameEnum.LOGIN
-        })
+        router.push(RouterNameEnum.LOGIN);
       }
     }
     return Promise.reject(error);

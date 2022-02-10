@@ -79,9 +79,7 @@ const submitForm = (formEl: FormInstanceType | undefined) => {
   formEl.validate((valid) => {
     if (valid) {
       userStore.loginRequest(encode(JSON.stringify(loginForm))).then(() => {
-        router.push({
-          name: RouterNameEnum.HOME,
-        });
+        router.push(RouterNameEnum.HOME);
       });
     }
   });

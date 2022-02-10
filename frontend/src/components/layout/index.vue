@@ -8,24 +8,27 @@
       style="background-color: rgb(238, 241, 246)"
     >
       <el-scrollbar>
-        <el-menu router>
+        <el-menu
+          router
+          :default-active="activePath"
+        >
           <template
-            v-for="route of activeRoutes"
-            :key="route.name"
+            v-for="item of activeRoutes"
+            :key="item.name"
           >
             <el-sub-menu
-              v-if="route.children?.length"
-              :index="route.path"
+              v-if="item.children?.length"
+              :index="item.path"
             >
               <template #title>
-                {{ route.meta.title }}
+                {{ item.meta.title }}
               </template>
             </el-sub-menu>
             <el-menu-item
               v-else
-              :index="route.path"
+              :index="item.path"
             >
-              <span>{{ route.meta.title }}</span>
+              <span>{{ item.meta.title }}</span>
             </el-menu-item>
           </template>
         </el-menu>
@@ -58,11 +61,16 @@ import routes from '@/router/list';
 import { computed } from '@vue/runtime-core';
 import userStoreStart from "@/store/user";
 import Cookies from 'js-cookie';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { RouterNameEnum } from '@/constants/enum/RouterNameEnum';
+import { ref } from 'vue';
 
 const router = useRouter();
+const route = useRoute();
 const userStore = userStoreStart();
+
+const activePath = ref(route.path);
+
 const userInfo = computed(() => userStore.userInfo);
 const activeRoutes = computed(() => routes.filter(route => route.meta.isMenuShow));
 
