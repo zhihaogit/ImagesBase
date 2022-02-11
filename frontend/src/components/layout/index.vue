@@ -64,14 +64,16 @@ import Cookies from 'js-cookie';
 import { useRouter, useRoute } from 'vue-router';
 import { RouterNameEnum } from '@/constants/enum/RouterNameEnum';
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
 
 const router = useRouter();
 const route = useRoute();
 const userStore = userStoreStart();
 
+const { userInfo } = storeToRefs(userStore);
+
 const activePath = ref(route.path);
 
-const userInfo = computed(() => userStore.userInfo);
 const activeRoutes = computed(() => routes.filter(route => route.meta.isMenuShow));
 
 const logout = () => {
