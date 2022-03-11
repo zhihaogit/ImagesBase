@@ -22,7 +22,7 @@ instance.interceptors.request.use(
     if (config.headers && token) {
       config.headers.token = token;
     }
-  return config;
+    return config;
   },
   error => Promise.reject(error)
 );
@@ -36,6 +36,10 @@ instance.interceptors.response.use(
       if (RouterNameEnum.LOGIN !== router.currentRoute.value.name) {
         router.push(RouterNameEnum.LOGIN);
       }
+    } else if (HttpStatusEnum.NOT_FOUND === error.response.status) {
+      ElMessage.error(error.response.statusText);
+    } else {
+      ElMessage.error(error.response.statusText);
     }
     return Promise.reject(error);
   }

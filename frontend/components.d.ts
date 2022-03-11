@@ -7,6 +7,7 @@ declare module 'vue' {
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElDialog: typeof import('element-plus/es')['ElDialog']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElHeader: typeof import('element-plus/es')['ElHeader']
@@ -20,6 +21,7 @@ declare module 'vue' {
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     Layout: typeof import('./src/components/layout/index.vue')['default']
+    PicturePreview: typeof import('./src/components/picturePreview/index.vue')['default']
   }
 }
 

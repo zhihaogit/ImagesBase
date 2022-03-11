@@ -44,10 +44,12 @@
         WHERE is_delete = FALSE
         ORDER BY created_at;
     </select>
-    
+
     <select id="getOneByPictureId" resultType="com.images_base.backend.modal.entity.PictureEntity">
         SELECT *
         FROM picture
-        WHERE is_delete = FALSE;
+        WHERE is_delete = FALSE
+        AND picture_id = #{pictureId}
+        LIMIT 1;
     </select>
 </mapper>
