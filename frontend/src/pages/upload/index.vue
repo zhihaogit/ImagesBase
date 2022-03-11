@@ -1,43 +1,50 @@
 <template>
   <Layout>
-    <el-upload
-      action="/api/picture/upload"
-      :on-preview="handlePreview"
-      :on-remove="handleRemove"
-      :file-list="fileList"
-      list-type="picture"
+    <el-button
+      type="primary"
+      class="upload-btn"
+      @click="uploadVisible = true"
     >
-      <el-button type="primary">
-        Click to upload
-      </el-button>
-      <template #tip>
-        <div class="el-upload__tip">
-          jpg/png files with a size less than 500kb
-        </div>
-      </template>
-    </el-upload>
+      Upload
+    </el-button>
+    <PictureList
+      @preview="handlePictureCardPreview"
+    />
   </Layout>
+  <PreviewDialog
+    v-model:visible="previewVisible"
+    v-model:url="previewImageUrl"
+  />
+  <UploadDialog
+    v-model:visible="uploadVisible"
+  />
 </template>
 
 <script lang="ts" setup name="upload">
 import Layout from "@/components/layout/index.vue";
+import PreviewDialog from '@/components/picturePreview/index.vue';
+import PictureList from './pictureList.vue';
+import UploadDialog from './uploadDialog.vue';
+import pictureStoreStart from "@/store/picture";
 import { ref } from "vue";
 import type { UploadFile } from "element-plus/es/components/upload/src/upload.type";
 
-const fileList = ref([
-  {
-    name: "food.jpeg",
-    url: "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
-  },
-  {
-    name: "food2.jpeg",
-    url: "https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100",
-  },
-]);
-const handleRemove = (file: UploadFile, fileList: UploadFile[]) => {
-  console.log(file, fileList);
+const previewImageUrl = ref('');
+const previewVisible = ref(false);
+const uploadVisible = ref(false);
+const pictureStore = pictureStoreStart();
+
+const handlePictureCardPreview = (file: UploadFile) => {
+  previewVisible.value = true;
+  previewImageUrl.value = file.url as string;
 };
-const handlePreview = (file: UploadFile) => {
-  console.log(file);
-};
+
+// 获取图片列表
+pictureStore.getAllPicturesRequest();
 </script>
+
+<style scoped>
+.upload-btn {
+  margin: 8px 0 0 8px;
+}
+</style>

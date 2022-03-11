@@ -18,7 +18,7 @@ import java.util.List;
  * <p>
  * Created on 2022/1/18
  */
-@Api(value = "user", tags = "图片相关")
+@Api(value = "picture", tags = "图片相关")
 @RestController
 @RequestMapping(path = "/picture")
 public class PictureController {
