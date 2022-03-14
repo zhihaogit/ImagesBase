@@ -4,8 +4,12 @@ import com.images_base.backend.modal.entity.PictureEntity;
 import com.images_base.backend.service.PictureService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -29,15 +33,17 @@ public class PictureController {
     /**
      * 上传图片
      *
-     * @param file
+     * @param filename    - String
+     * @param description - String
+     * @param file        - MultipartFile
      * @throws IOException
      * @throws NoSuchAlgorithmException
      * @throws SQLException
      */
     @PostMapping("/upload")
     @ApiOperation("图片上传接口")
-    void updatePicture(@RequestParam(value = "file", required = true) MultipartFile file) throws IOException, NoSuchAlgorithmException, SQLException {
-        pictureService.updatePicture(file);
+    void updatePicture(@ApiParam("filename") String filename, @ApiParam("description") String description, @ApiParam("file") MultipartFile file) throws IOException, NoSuchAlgorithmException, SQLException {
+        pictureService.updatePicture(filename, description, file);
     }
 
     /**

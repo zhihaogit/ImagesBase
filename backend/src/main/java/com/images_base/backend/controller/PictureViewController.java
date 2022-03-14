@@ -31,7 +31,6 @@ public class PictureViewController {
     @GetMapping("/{pictureId}")
     @ApiOperation(value = "单个图片查询接口")
     void getOneByPictureId(@PathVariable(name = "pictureId") String pictureId, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println(pictureId);
         PictureEntity one = pictureService.getOneByPictureId(pictureId);
         byte[] origin = one.getPictureOrigin();
         response.setContentType(one.getPictureType());

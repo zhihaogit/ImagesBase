@@ -9,7 +9,6 @@
       :model="uploadForm"
       :rules="uploadrules"
       label-width="120px"
-      :size="formSize"
     >
       <el-form-item
         label="filename"
@@ -29,20 +28,22 @@
           type="textarea"
         />
       </el-form-item>
-      <el-form-item
-        label="images"
-      >
+      <el-form-item label="image">
         <el-upload
           ref="uploaderRef"
+          list-type="picture-card"
           action="/api/picture/upload"
-          :headers="{ token: token }"
+          :multiple="false"
+          :headers="uploaderHeader"
           :show-file-list="true"
           :auto-upload="false"
           :limit="1"
-          list-type="picture-card"
+          :data="uploadForm"
+          :on-preview="handlePictureCardPreview"
           :on-change="localUploadChange"
           :on-remove="localUploadRemove"
           :on-success="remoteUploadSuccess"
+          :on-error="remoteUploadError"
         >
           <template #default>
             <el-icon>
@@ -52,6 +53,15 @@
         </el-upload>
       </el-form-item>
     </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogClose">Cancel</el-button>
+        <el-button
+          type="primary"
+          @click="remoteUpload"
+        >Upload</el-button>
+      </span>
+    </template>
   </el-dialog>
 </template>
 
@@ -60,7 +70,9 @@ import Cookies from "js-cookie";
 import { Plus } from '@element-plus/icons-vue';
 import { reactive, ref } from 'vue';
 import type { FormInstanceType } from "@/constants/type/FormInstanceType";
-import type { UploadFile } from "element-plus/es/components/upload/src/upload.type";
+import type { ElFile, UploadFile } from "element-plus/es/components/upload/src/upload.type";
+import type { UploadInstanceType } from "@/constants/type/UploadInstanceType";
+import { ElMessage } from "element-plus";
 
 const props = defineProps({
   visible: {
@@ -69,18 +81,17 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:visible']);
+const emit = defineEmits(['update:visible', 'preview', 'close']);
 
-const token = Cookies.get('token');
-
-const formSize = ref('');
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const uploaderHeader: any = {
+  token: Cookies.get('token'),
+};
 const uploadFormRef = ref<FormInstanceType>();
 const uploadForm = reactive({
   filename: '',
   description: '',
 });
-const uploaderRef = ref<UploadFile>();
-
 const uploadrules = reactive({
   filename: [
     {
@@ -95,50 +106,62 @@ const uploadrules = reactive({
     },
   ],
 })
-
-const submitForm = (formEl: FormInstanceType | undefined) => {
-  if (!formEl) return
-  formEl.validate((valid) => {
-    if (valid) {
-      
-      console.log('submit!', uploaderRef.value)
-    } else {
-      console.log('error submit!')
-      return false
-    }
-  })
-}
-
 const resetForm = (formEl: FormInstanceType | undefined) => {
   if (!formEl) return
   formEl.resetFields()
 };
 
-let isAutoName = false;
+const uploaderRef = ref<UploadInstanceType>()
+
+const isAutoName = ref(false);
+const currentFile = ref<ElFile>();
 const localUploadChange = (file: UploadFile) => {
+  currentFile.value = file.raw;
   if (file.status === 'ready' && !uploadForm.filename) {
     uploadForm.filename = file.name;
-    isAutoName = true;
+    isAutoName.value = true;
   }
-  console.log(uploaderRef.value)
 };
 
-const localUploadRemove = (file: UploadFile) => {
-  if (isAutoName) {
+const localUploadRemove = () => {
+  currentFile.value = undefined;
+  if (isAutoName.value) {
     uploadForm.filename = '';
   }
-  console.log(file)
 };
 
 const filenameChange = () => {
-  isAutoName = false;
+  isAutoName.value = false;
 };
 
-const remoteUploadSuccess = (response: any, file: UploadFile) => {
-  console.log(response, file)
+const remoteUploadSuccess = () => {
+  ElMessage.success("Upload successfully");
+  dialogClose();
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const remoteUploadError = (error: any, file: UploadFile) => {
+  const message = error.message ? JSON.parse(error.message)?.msg : 'Upload failed';
+  ElMessage.error(`${error.status}: ${message}`)
+  uploaderRef.value?.handleStart(file.raw);
 };
 
 const dialogClose = () => {
   emit('update:visible', false);
+  emit('close');
+  resetForm(uploadFormRef.value);
+  uploaderRef.value?.clearFiles();
+};
+
+const remoteUpload = () => {
+  uploadFormRef.value?.validate((valid) => {
+    if (valid && !!currentFile.value) {
+      uploaderRef.value?.submit();
+    }
+  });
+};
+
+const handlePictureCardPreview = (file: UploadFile) => {
+  emit('preview', file);
 };
 </script>

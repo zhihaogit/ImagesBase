@@ -17,6 +17,8 @@
   />
   <UploadDialog
     v-model:visible="uploadVisible"
+    @preview="handlePictureCardPreview"
+    @close="uploadDialogClose"
   />
 </template>
 
@@ -37,6 +39,10 @@ const pictureStore = pictureStoreStart();
 const handlePictureCardPreview = (file: UploadFile) => {
   previewVisible.value = true;
   previewImageUrl.value = file.url as string;
+};
+
+const uploadDialogClose = () => {
+  pictureStore.getAllPicturesRequest();
 };
 
 // 获取图片列表

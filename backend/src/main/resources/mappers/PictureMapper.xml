@@ -4,9 +4,10 @@
 <mapper namespace="com.images_base.backend.dao.PictureMapper">
     <insert id="uploadPicture" parameterType="com.images_base.backend.modal.entity.PictureEntity">
         INSERT INTO picture
-        (uploader, picture_name, picture_type, picture_id, picture_origin, is_delete, updated_at, created_at)
+        (uploader, picture_name, description, picture_type, picture_id, picture_origin, is_delete, updated_at,
+        created_at)
         VALUES
-        (#{entity.uploader}, #{entity.pictureName}, #{entity.pictureType}, #{entity.pictureId}, #{entity.pictureOrigin,
+        (#{entity.uploader}, #{entity.pictureName}, #{entity.description}, #{entity.pictureType}, #{entity.pictureId}, #{entity.pictureOrigin,
         typeHandler=org.apache.ibatis.type.BlobTypeHandler},
         #{entity.isDelete}, #{entity.updatedAt}, #{entity.createdAt})
     </insert>
