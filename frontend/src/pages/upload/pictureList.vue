@@ -11,6 +11,11 @@
         :alt="file.url"
       >
       <span class="uploader-item__actions">
+        <span @click="handleShare(file)">
+          <el-icon>
+            <Share />
+          </el-icon>
+        </span>
         <span @click="handlePictureCardPreview(file)">
           <el-icon>
             <zoom-in />
@@ -33,24 +38,41 @@
 
 <script setup lang="ts" name="ListItem">
 import downloadHanlder from '@/utils/download';
-import { ZoomIn, Download, Delete } from '@element-plus/icons-vue';
+import { ZoomIn, Download, Delete, Share } from '@element-plus/icons-vue';
 import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type';
 import pictureStoreStart from "@/store/picture";
+import copyHandler from '@/utils/copy';
+import { ElMessage } from 'element-plus'
 
 const pictureStore = pictureStoreStart();
 
-const emit = defineEmits(['preview', 'delete', 'download']);
+const emit = defineEmits(['preview', 'delete', 'download', 'share']);
 
 const handleRemove = (file: UploadFile) => {
   emit('delete', file);
 };
+
 const handlePictureCardPreview = (file: UploadFile) => {
   emit('preview', file);
 };
+
 const handleDownload = (file: UploadFile) => {
   emit('download', file);
   const { url, name } = file;
   downloadHanlder(url as string, name);
+  ElMessage({
+    message: 'Download image successfully',
+    type: 'success',
+  });
+};
+
+const handleShare = (file: UploadFile) => {
+  emit('share', file);
+  copyHandler(`${location.origin}${file.url}`);
+  ElMessage({
+    message: 'Copy image url successfully',
+    type: 'success',
+  });
 };
 </script>
 
@@ -101,7 +123,7 @@ const handleDownload = (file: UploadFile) => {
 .uploader-item__actions span {
   display: inline-block;
   cursor: pointer;
-  margin: 10px;
+  margin: 5px;
 }
 
 .uploader-item__actions:hover {

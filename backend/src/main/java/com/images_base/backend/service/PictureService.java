@@ -16,14 +16,16 @@ import java.util.List;
 public interface PictureService {
 
     /**
-     * 图片上传
+     * 上传图片
      *
-     * @param file
+     * @param filename    - String
+     * @param description - String
+     * @param file        - MultipartFile
      * @throws IOException
      * @throws NoSuchAlgorithmException
      * @throws SQLException
      */
-    void updatePicture(MultipartFile file) throws IOException, NoSuchAlgorithmException, SQLException;
+    void updatePicture(String filename, String description, MultipartFile file) throws IOException, NoSuchAlgorithmException, SQLException;
 
     /**
      * 图片全列表查询

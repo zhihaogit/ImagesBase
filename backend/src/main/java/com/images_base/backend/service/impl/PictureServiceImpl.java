@@ -30,11 +30,10 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, PictureEntity
     private static final Logger logger = LoggerFactory.getLogger(PictureServiceImpl.class);
 
     @Override
-    public void updatePicture(MultipartFile file) throws IOException, NoSuchAlgorithmException, SQLException {
+    public void updatePicture(String filename, String description, MultipartFile file) throws IOException, NoSuchAlgorithmException, SQLException {
         LocalDateTime now = LocalDateTime.now();
-        String originalFilename = file.getOriginalFilename();
         String contentType = file.getContentType();
-        String builder = originalFilename +
+        String builder = file.getOriginalFilename() +
                 contentType +
                 file.getSize();
         String encode = Sha256Util.encode(builder);
@@ -46,7 +45,8 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, PictureEntity
         PictureEntity entity = new PictureEntity();
         entity.setUseTimes(0L);
         entity.setUploader(null);
-        entity.setPictureName(originalFilename);
+        entity.setPictureName(filename);
+        entity.setDescription(description);
         entity.setPictureType(contentType);
         entity.setPictureId(encode);
         entity.setPictureOrigin(file.getBytes());

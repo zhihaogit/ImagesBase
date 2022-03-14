@@ -79,7 +79,6 @@ const submitForm = (formEl: FormInstanceType | undefined) => {
   formEl.validate((valid) => {
     if (valid) {
       userStore.loginRequest(encode(JSON.stringify(loginForm))).then(() => {
-        console.log(RouterNameEnum.HOME)
         router.replace(RouterNameEnum.HOME);
       });
     }

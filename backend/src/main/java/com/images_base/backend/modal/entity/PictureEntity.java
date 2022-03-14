@@ -35,6 +35,10 @@ public class PictureEntity extends BaseEntity {
     @ApiModelProperty("图片名称")
     private String pictureName;
 
+    @TableField("description")
+    @ApiModelProperty("图片描述")
+    private String description;
+
     @TableField("picture_type")
     @ApiModelProperty("图片类型")
     private String pictureType;
@@ -106,5 +110,13 @@ public class PictureEntity extends BaseEntity {
 
     public void setDelete(Boolean delete) {
         isDelete = delete;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
