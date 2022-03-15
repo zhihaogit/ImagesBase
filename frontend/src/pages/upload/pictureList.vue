@@ -8,7 +8,7 @@
       <img
         class="uploader-item__thumbnail"
         :src="file.url"
-        :alt="file.url"
+        :alt="file.pictureId"
       >
       <span class="uploader-item__actions">
         <span @click="handleShare(file)">

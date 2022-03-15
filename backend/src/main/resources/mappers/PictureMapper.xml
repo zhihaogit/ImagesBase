@@ -4,54 +4,26 @@
 <mapper namespace="com.images_base.backend.dao.PictureMapper">
     <insert id="uploadPicture" parameterType="com.images_base.backend.modal.entity.PictureEntity">
         INSERT INTO picture
-        (uploader, picture_name, description, picture_type, picture_id, picture_origin, is_delete, updated_at,
-        created_at)
+        (picture_id, picture_origin)
         VALUES
-        (#{entity.uploader}, #{entity.pictureName}, #{entity.description}, #{entity.pictureType}, #{entity.pictureId}, #{entity.pictureOrigin,
-        typeHandler=org.apache.ibatis.type.BlobTypeHandler},
-        #{entity.isDelete}, #{entity.updatedAt}, #{entity.createdAt})
+        (#{entity.pictureId}, #{entity.pictureOrigin, typeHandler=org.apache.ibatis.type.BlobTypeHandler})
     </insert>
 
-    <select id="checkDuplication" resultType="java.lang.Integer">
-        SELECT count(picture_name)
-        FROM picture
-        WHERE picture_id = #{pictureId}
-        AND is_delete = FALSE
-        LIMIT 1;
-    </select>
-
-    <resultMap id="getPictureListMap" type="com.images_base.backend.modal.entity.PictureEntity">
-        <id column="id" property="id"/>
-        <result column="use_times" property="useTimes"/>
-        <result column="uploader" property="uploader"/>
-        <result column="picture_name" property="pictureName"/>
-        <result column="picture_type" property="pictureType"/>
-        <result column="picture_id" property="pictureId"/>
-        <!--        <result column="picture_origin" property="pictureOrigin" typeHandler="org.apache.ibatis.type.BlobTypeHandler"/>-->
-        <result column="created_at" property="createdAt"/>
-        <result column="updated_at" property="updatedAt"/>
-    </resultMap>
-
-    <select id="getPictureList" resultMap="getPictureListMap">
+    <select id="getOneByPictureId" resultType="com.images_base.backend.modal.vo.picture.PictureFileVO">
         SELECT
-        id,
-        use_times,
-        uploader,
-        picture_name,
-        picture_type,
+        pi.picture_type,
+        p.picture_id,
+        p.picture_origin
+        FROM picture AS p
+        LEFT JOIN (
+        SELECT
         picture_id,
-        created_at,
-        updated_at
-        FROM picture
-        WHERE is_delete = FALSE
-        ORDER BY created_at;
-    </select>
-
-    <select id="getOneByPictureId" resultType="com.images_base.backend.modal.entity.PictureEntity">
-        SELECT *
-        FROM picture
-        WHERE is_delete = FALSE
-        AND picture_id = #{pictureId}
+        picture_type,
+        created_at
+        FROM picture_info
+        ) AS pi ON p.picture_id = pi.picture_id
+        WHERE p.picture_id = #{pictureId}
+        ORDER BY pi.created_at
         LIMIT 1;
     </select>
 

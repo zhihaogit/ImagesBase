@@ -1,22 +1,22 @@
 package com.images_base.backend.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.images_base.backend.dao.PictureMapper;
 import com.images_base.backend.exception.BadRequestException;
-import com.images_base.backend.modal.entity.BaseEntity;
 import com.images_base.backend.modal.entity.PictureEntity;
+import com.images_base.backend.modal.vo.picture.PictureFileVO;
+import com.images_base.backend.service.PictureInfoService;
 import com.images_base.backend.service.PictureService;
+import com.images_base.backend.service.PictureStatService;
 import com.images_base.backend.util.Sha256Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * @author zhengzhihao
@@ -28,54 +28,53 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, PictureEntity
 
     private static final Logger logger = LoggerFactory.getLogger(PictureServiceImpl.class);
 
+    @Autowired
+    PictureInfoService pictureInfoService;
+
+    @Autowired
+    PictureStatService pictureStatService;
+
     @Override
     public void uploadPicture(String filename, String description, MultipartFile file) throws IOException, NoSuchAlgorithmException {
-        LocalDateTime now = LocalDateTime.now();
         String contentType = file.getContentType();
         String builder = file.getOriginalFilename() +
                 contentType +
                 file.getSize();
         String encode = Sha256Util.encode(builder);
         logger.info("upload request hash id of picture: {}", encode);
-        Integer count = this.getBaseMapper().checkDuplication(encode);
+        Integer count = pictureInfoService.checkDuplication(encode);
         if (count > 0) {
             throw new BadRequestException("图片重复");
         }
+        if (!pictureInfoService.createPictureInfo(file, encode, filename, description)) {
+            throw new BadRequestException("创建图片信息失败");
+        }
+        if (!pictureStatService.createPictureStat(encode, 0L)) {
+            throw new BadRequestException("创建图片统计信息失败");
+        }
         PictureEntity entity = new PictureEntity();
-        entity.setUseTimes(0L);
-        entity.setUploader(null);
-        entity.setPictureName(filename);
-        entity.setDescription(description);
-        entity.setPictureType(contentType);
         entity.setPictureId(encode);
         entity.setPictureOrigin(file.getBytes());
-        entity.setDelete(false);
-        entity.setCreatedAt(now);
-        entity.setUpdatedAt(now);
         this.getBaseMapper().uploadPicture(entity);
     }
 
     @Override
-    public List<PictureEntity> getPictureList() {
-        return this.getBaseMapper().getPictureList();
-    }
-
-    @Override
-    public PictureEntity getOneByPictureId(String pictureId) {
-        PictureEntity one = this.getBaseMapper().getOneByPictureId(pictureId);
+    public PictureFileVO getOneByPictureId(String pictureId) {
+        PictureFileVO one = this.getBaseMapper().getOneByPictureId(pictureId);
         if (null == one) {
             throw new BadRequestException("未找到图片");
         }
-        Long useTimes = one.getUseTimes();
-        this.update(new UpdateWrapper<PictureEntity>()
-                .eq(BaseEntity.ID_FIELD, one.getId())
-                .set(PictureEntity.USE_TIMES, null == useTimes ? 1L : useTimes + 1)
-                .set(BaseEntity.UPDATED_AT, LocalDateTime.now()));
+        if (!pictureStatService.updateUseTimesOneDay(pictureId)) {
+            throw new BadRequestException("统计失败");
+        }
         return one;
     }
 
     @Override
     public boolean removeByPictureId(String pictureId) {
+        if (!pictureInfoService.removeByPictureId(pictureId)) {
+            throw new BadRequestException("删除图片信息失败");
+        }
         return this.getBaseMapper().removeByPictureId(pictureId);
     }
 }

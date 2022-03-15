@@ -1,6 +1,5 @@
 package com.images_base.backend.controller;
 
-import com.images_base.backend.modal.entity.PictureEntity;
 import com.images_base.backend.service.PictureService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * @author zhengzhihao
@@ -41,17 +39,6 @@ public class PictureController {
     @ApiOperation("图片上传接口")
     void uploadPicture(@ApiParam("filename") String filename, @ApiParam("description") String description, @ApiParam("file") MultipartFile file) throws IOException, NoSuchAlgorithmException, SQLException {
         pictureService.uploadPicture(filename, description, file);
-    }
-
-    /**
-     * 图片全列表查询
-     *
-     * @return
-     */
-    @GetMapping("/list")
-    @ApiOperation("图片全列表查询")
-    List<PictureEntity> getPictureList() {
-        return pictureService.getPictureList();
     }
 
     /**

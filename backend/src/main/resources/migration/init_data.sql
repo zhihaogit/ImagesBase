@@ -91,17 +91,31 @@ INSERT INTO role_feat_association (id, role_id, feat_id) VALUES
 
 DROP TABLE IF EXISTS picture;
 CREATE TABLE picture (
-    `id`                BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-    `use_times`         BIGINT(20) NULL DEFAULT NULL COMMENT '使用次数',
-    `uploader`          BIGINT(20) NULL DEFAULT NULL COMMENT '上传者ID',
     `picture_origin`    MEDIUMBLOB NOT NULL COMMENT '图片二进制数据',
+    `picture_id`        VARCHAR(255) NOT NULL COLLATE utf8_bin COMMENT '图片散列ID',
+    PRIMARY KEY (`picture_id`) USING BTREE
+) ENGINE = InnoDB
+  CHARSET = utf8mb4 COMMENT = '图片存储表';
+
+DROP TABLE IF EXISTS picture_info;
+CREATE TABLE picture_info (
+    `uploader`          BIGINT(20) NULL DEFAULT NULL COMMENT '上传者ID',
     `picture_type`      VARCHAR(255) COLLATE utf8_bin NULL DEFAULT NULL COMMENT '图片类型',
     `picture_name`      VARCHAR(255) COLLATE utf8_bin NULL DEFAULT NULL COMMENT '图片名称',
     `description`       VARCHAR(255) COLLATE utf8_bin NULL DEFAULT NULL COMMENT '图片描述',
-    `picture_id`        VARCHAR(255) COLLATE utf8_bin NULL DEFAULT NULL COMMENT '图片散列ID',
+    `picture_id`        VARCHAR(255) NOT NULL COLLATE utf8_bin COMMENT '图片散列ID',
     `updated_at`        datetime   NULL DEFAULT NULL COMMENT '更新时间',
     `created_at`        datetime   NULL DEFAULT NULL COMMENT '创建时间',
     `is_delete`         tinyint(1)      DEFAULT '0'  COMMENT '是否被删除',
-    PRIMARY KEY (`id`) USING BTREE
+    PRIMARY KEY (`picture_id`) USING BTREE
 ) ENGINE = InnoDB
-  CHARSET = utf8mb4 COMMENT = '图片存储表';
+  CHARSET = utf8mb4 COMMENT = '图片信息表';
+
+DROP TABLE IF EXISTS picture_stat;
+CREATE TABLE picture_stat (
+    `use_times`         BIGINT(20) NULL DEFAULT NULL COMMENT '每日使用次数',
+    `picture_id`        VARCHAR(255) NOT NULL COLLATE utf8_bin COMMENT '图片散列ID',
+    `use_date`          date         NOT NULL COMMENT '日期统计时间',
+    PRIMARY KEY (`picture_id`, `use_date`) USING BTREE
+) ENGINE = InnoDB
+  CHARSET = utf8mb4 COMMENT = '图片统计表';

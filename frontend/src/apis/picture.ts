@@ -7,7 +7,7 @@ import request from '@/utils/request';
  * @returns 
  */
 export const getAllPicturesApi = () => request({
-  url: '/picture/list',
+  url: '/picture_info/list',
   method: 'GET',
 });
 

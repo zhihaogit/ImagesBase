@@ -1,6 +1,6 @@
 package com.images_base.backend.controller;
 
-import com.images_base.backend.modal.entity.PictureEntity;
+import com.images_base.backend.modal.vo.picture.PictureFileVO;
 import com.images_base.backend.service.PictureService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -31,7 +31,7 @@ public class PictureViewController {
     @GetMapping("/{pictureId}")
     @ApiOperation(value = "单个图片查询接口")
     void getOneByPictureId(@PathVariable(name = "pictureId") String pictureId, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        PictureEntity one = pictureService.getOneByPictureId(pictureId);
+        PictureFileVO one = pictureService.getOneByPictureId(pictureId);
         byte[] origin = one.getPictureOrigin();
         response.setContentType(one.getPictureType());
         response.setContentLength(origin.length);
