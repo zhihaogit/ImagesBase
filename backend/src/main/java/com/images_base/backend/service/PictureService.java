@@ -1,12 +1,12 @@
 package com.images_base.backend.service;
 
-import com.images_base.backend.modal.entity.PictureEntity;
+import com.images_base.backend.modal.vo.picture.PictureFileVO;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * @author zhengzhihao
@@ -25,14 +25,8 @@ public interface PictureService {
      * @throws NoSuchAlgorithmException
      * @throws SQLException
      */
-    void uploadPicture(String filename, String description, MultipartFile file) throws IOException, NoSuchAlgorithmException, SQLException;
-
-    /**
-     * 图片全列表查询
-     *
-     * @return
-     */
-    List<PictureEntity> getPictureList();
+    @Transactional(rollbackFor = Exception.class)
+    void uploadPicture(String filename, String description, MultipartFile file) throws IOException, NoSuchAlgorithmException;
 
     /**
      * 查看图片
@@ -40,7 +34,7 @@ public interface PictureService {
      * @param pictureId
      * @return
      */
-    PictureEntity getOneByPictureId(String pictureId);
+    PictureFileVO getOneByPictureId(String pictureId);
 
     /**
      * 直接删除单个图片
@@ -48,5 +42,6 @@ public interface PictureService {
      * @param pictureId - String
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     boolean removeByPictureId(String pictureId);
 }

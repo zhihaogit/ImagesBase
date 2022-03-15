@@ -6,26 +6,44 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.images_base.backend.util.annotation.ResponseBodyAnnotation;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.apache.ibatis.type.BlobTypeHandler;
+
+import java.time.LocalDate;
 
 /**
  * @author zhengzhihao
  * <p>
  * Created on 2022/1/18
  */
-@TableName("picture")
+@TableName("picture_stat")
 @ResponseBodyAnnotation
 @ApiModel("图片存储类")
-public class PictureEntity {
+public class PictureStatEntity {
+
+    public static final String PICTURE_ID = "picture_id";
+
+    public static final String USE_DATE = "use_date";
+
+    public static final String USE_TIMES = "use_times";
+
+    @TableField("use_times")
+    @ApiModelProperty("使用次数")
+    private Long useTimes;
 
     @TableId
     @TableField("picture_id")
     @ApiModelProperty("图片散列ID")
     private String pictureId;
 
-    @TableField(value = "picture_origin", typeHandler = BlobTypeHandler.class)
-    @ApiModelProperty("图片二进制数据")
-    private byte[] pictureOrigin;
+    @ApiModelProperty("使用日期")
+    private LocalDate useDate;
+
+    public Long getUseTimes() {
+        return useTimes;
+    }
+
+    public void setUseTimes(Long useTimes) {
+        this.useTimes = useTimes;
+    }
 
     public String getPictureId() {
         return pictureId;
@@ -35,11 +53,11 @@ public class PictureEntity {
         this.pictureId = pictureId;
     }
 
-    public byte[] getPictureOrigin() {
-        return pictureOrigin;
+    public LocalDate getUseDate() {
+        return useDate;
     }
 
-    public void setPictureOrigin(byte[] pictureOrigin) {
-        this.pictureOrigin = pictureOrigin;
+    public void setUseDate(LocalDate useDate) {
+        this.useDate = useDate;
     }
 }
