@@ -70,7 +70,7 @@ import Cookies from "js-cookie";
 import { Plus } from '@element-plus/icons-vue';
 import { reactive, ref } from 'vue';
 import type { FormInstanceType } from "@/constants/type/FormInstanceType";
-import type { ElFile, UploadFile } from "element-plus/es/components/upload/src/upload.type";
+import type { UploadFile, UploadRawFile } from "element-plus/es/components/upload/src/upload.d";
 import type { UploadInstanceType } from "@/constants/type/UploadInstanceType";
 import { ElMessage } from "element-plus";
 
@@ -114,7 +114,7 @@ const resetForm = (formEl: FormInstanceType | undefined) => {
 const uploaderRef = ref<UploadInstanceType>()
 
 const isAutoName = ref(false);
-const currentFile = ref<ElFile>();
+const currentFile = ref<UploadRawFile>();
 const localUploadChange = (file: UploadFile) => {
   currentFile.value = file.raw;
   if (file.status === 'ready' && !uploadForm.filename) {

@@ -25,7 +25,7 @@ public interface PictureService {
      * @throws NoSuchAlgorithmException
      * @throws SQLException
      */
-    void updatePicture(String filename, String description, MultipartFile file) throws IOException, NoSuchAlgorithmException, SQLException;
+    void uploadPicture(String filename, String description, MultipartFile file) throws IOException, NoSuchAlgorithmException, SQLException;
 
     /**
      * 图片全列表查询
@@ -41,4 +41,12 @@ public interface PictureService {
      * @return
      */
     PictureEntity getOneByPictureId(String pictureId);
+
+    /**
+     * 直接删除单个图片
+     *
+     * @param pictureId - String
+     * @return
+     */
+    boolean removeByPictureId(String pictureId);
 }

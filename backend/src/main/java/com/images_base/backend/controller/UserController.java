@@ -44,7 +44,7 @@ public class UserController {
      */
     @PostMapping("/register")
     @ApiOperation(value = "用户注册接口")
-    public ResponseBodyVO userRegister(@RequestBody @Validated @ApiParam("Base64编码后的请求体") String param) {
+    ResponseBodyVO userRegister(@RequestBody @Validated @ApiParam("Base64编码后的请求体") String param) {
         String s = new String(Base64.getDecoder().decode(param), StandardCharsets.UTF_8);
         UserRegisterDTO user = new Gson().fromJson(s, UserRegisterDTO.class);
         return userService.register(user);
@@ -58,7 +58,7 @@ public class UserController {
      */
     @PostMapping("/login")
     @ApiOperation(value = "用户登录接口")
-    public Map<String, String> userLogin(@RequestBody @Validated @ApiParam("Base64编码后的请求体") String param) {
+    Map<String, String> userLogin(@RequestBody @Validated @ApiParam("Base64编码后的请求体") String param) {
         byte[] bytes = Base64.getDecoder().decode(param);
         String s = new String(bytes, StandardCharsets.UTF_8);
         Gson gson = new Gson();
@@ -74,7 +74,7 @@ public class UserController {
     @GetMapping("/list")
     @ApiOperation(value = "获取所有用户的信息")
     @PreAuthorize("hasAnyAuthority('user:browse:*')")
-    public List<UserBriefVO> getUsers() {
+    List<UserBriefVO> getUsers() {
         return userService.getUsers();
     }
 
@@ -85,7 +85,7 @@ public class UserController {
      */
     @GetMapping("/info")
     @ApiOperation(value = "获取单个用户信息及权限信息")
-    public UserInfoVO getUserInfo() {
+    UserInfoVO getUserInfo() {
         return userService.getUserInfo();
     }
 

@@ -9,6 +9,7 @@
     </el-button>
     <PictureList
       @preview="handlePictureCardPreview"
+      @delete="reloadPicureList"
     />
   </Layout>
   <PreviewDialog
@@ -18,7 +19,7 @@
   <UploadDialog
     v-model:visible="uploadVisible"
     @preview="handlePictureCardPreview"
-    @close="uploadDialogClose"
+    @close="reloadPicureList"
   />
 </template>
 
@@ -29,24 +30,24 @@ import PictureList from './pictureList.vue';
 import UploadDialog from './uploadDialog.vue';
 import pictureStoreStart from "@/store/picture";
 import { ref } from "vue";
-import type { UploadFile } from "element-plus/es/components/upload/src/upload.type";
+import { PictureListInterface } from "@/constants/interface/PictureInterface";
 
 const previewImageUrl = ref('');
 const previewVisible = ref(false);
 const uploadVisible = ref(false);
 const pictureStore = pictureStoreStart();
 
-const handlePictureCardPreview = (file: UploadFile) => {
+const handlePictureCardPreview = (file: PictureListInterface) => {
   previewVisible.value = true;
   previewImageUrl.value = file.url as string;
 };
 
-const uploadDialogClose = () => {
+// 获取图片列表
+const reloadPicureList = () => {
   pictureStore.getAllPicturesRequest();
 };
 
-// 获取图片列表
-pictureStore.getAllPicturesRequest();
+reloadPicureList();
 </script>
 
 <style scoped>

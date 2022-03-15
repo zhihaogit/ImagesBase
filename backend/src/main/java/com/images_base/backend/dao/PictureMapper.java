@@ -44,4 +44,12 @@ public interface PictureMapper extends BaseMapper<PictureEntity> {
      * @return
      */
     PictureEntity getOneByPictureId(@Param("pictureId") String pictureId);
+
+    /**
+     * 直接删除单个图片
+     *
+     * @param pictureId
+     * @return
+     */
+    boolean removeByPictureId(@Param("pictureId") String pictureId);
 }

@@ -7,3 +7,9 @@ export interface PictureInterface {
   pictureOrigin: Blob,
   isDelete: boolean;
 }
+
+export interface PictureListInterface {
+  pictureId: string,
+  url: string,
+  name: string,
+}

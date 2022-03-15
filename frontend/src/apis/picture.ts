@@ -8,7 +8,7 @@ import request from '@/utils/request';
  */
 export const getAllPicturesApi = () => request({
   url: '/picture/list',
-  method: 'get',
+  method: 'GET',
 });
 
 /**
@@ -18,5 +18,16 @@ export const getAllPicturesApi = () => request({
  */
 export const getOnePicturesApi = (pictureId: string) => request({
   url: `/view/${pictureId}`,
-  method: 'get',
+  method: 'GET',
+});
+
+/**
+ * 删除单个图片
+ *
+ * @param pictureId 
+ * @returns 
+ */
+export const removeOnePictureApi = (pictureId: string) => request({
+  url: `/picture/${pictureId}`,
+  method: 'DELETE',
 });

@@ -12,7 +12,7 @@ export const loginApi = (data: string) => request({
     'Authorization': `Basic ${data}`
   },
   url: '/user/login',
-  method: 'post',
+  method: 'POST',
   data,
 });
 
@@ -23,5 +23,5 @@ export const loginApi = (data: string) => request({
  */
 export const userInfoApi = () => request({
   url: '/user/info',
-  method: 'get',
+  method: 'GET',
 });
