@@ -1,7 +1,7 @@
 <template>
   <div class="uploader-wrapper">
     <div
-      v-for="file in pictureStore.picturesUrlList"
+      v-for="file in picturesUrlList"
       :key="file.url"
       class="uploader-item"
     >
@@ -39,24 +39,57 @@
 <script setup lang="ts" name="ListItem">
 import downloadHanlder from '@/utils/download';
 import { ZoomIn, Download, Delete, Share } from '@element-plus/icons-vue';
-import type { UploadFile } from 'element-plus/es/components/upload/src/upload.type';
 import pictureStoreStart from "@/store/picture";
 import copyHandler from '@/utils/copy';
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { storeToRefs } from 'pinia';
+import { PictureListInterface } from '@/constants/interface/PictureInterface';
 
 const pictureStore = pictureStoreStart();
+const { picturesUrlList } = storeToRefs(pictureStore);
 
 const emit = defineEmits(['preview', 'delete', 'download', 'share']);
 
-const handleRemove = (file: UploadFile) => {
-  emit('delete', file);
+const handleRemove = (file: PictureListInterface) => {
+  ElMessageBox.confirm(
+    'Delete the pciture. Continue?',
+    'Warning',
+    {
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      type: 'warning',
+      center: true,
+    })
+    .then(() => {
+      pictureStore
+        .removeOnePictureRequest(file.pictureId)
+        .then(() => {
+          emit('delete', file);
+          ElMessage({
+            type: 'success',
+            message: 'Delete completed',
+          });
+        })
+        .catch(() => {
+          ElMessage({
+            type: 'info',
+            message: 'Delete failed',
+          });
+        });
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'Delete canceled',
+      });
+    });
 };
 
-const handlePictureCardPreview = (file: UploadFile) => {
+const handlePictureCardPreview = (file: PictureListInterface) => {
   emit('preview', file);
 };
 
-const handleDownload = (file: UploadFile) => {
+const handleDownload = (file: PictureListInterface) => {
   emit('download', file);
   const { url, name } = file;
   downloadHanlder(url as string, name);
@@ -66,7 +99,7 @@ const handleDownload = (file: UploadFile) => {
   });
 };
 
-const handleShare = (file: UploadFile) => {
+const handleShare = (file: PictureListInterface) => {
   emit('share', file);
   copyHandler(`${location.origin}${file.url}`);
   ElMessage({

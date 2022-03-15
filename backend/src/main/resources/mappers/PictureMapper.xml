@@ -15,7 +15,8 @@
     <select id="checkDuplication" resultType="java.lang.Integer">
         SELECT count(picture_name)
         FROM picture
-        WHERE picture_id=#{pictureId}
+        WHERE picture_id = #{pictureId}
+        AND is_delete = FALSE
         LIMIT 1;
     </select>
 
@@ -53,4 +54,9 @@
         AND picture_id = #{pictureId}
         LIMIT 1;
     </select>
+
+    <delete id="removeByPictureId" parameterType="string">
+        DELETE from picture
+        WHERE picture_id = #{pictureId}
+    </delete>
 </mapper>

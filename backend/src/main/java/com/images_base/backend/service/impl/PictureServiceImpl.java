@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, PictureEntity
     private static final Logger logger = LoggerFactory.getLogger(PictureServiceImpl.class);
 
     @Override
-    public void updatePicture(String filename, String description, MultipartFile file) throws IOException, NoSuchAlgorithmException, SQLException {
+    public void uploadPicture(String filename, String description, MultipartFile file) throws IOException, NoSuchAlgorithmException {
         LocalDateTime now = LocalDateTime.now();
         String contentType = file.getContentType();
         String builder = file.getOriginalFilename() +
@@ -73,5 +72,10 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, PictureEntity
                 .set(PictureEntity.USE_TIMES, null == useTimes ? 1L : useTimes + 1)
                 .set(BaseEntity.UPDATED_AT, LocalDateTime.now()));
         return one;
+    }
+
+    @Override
+    public boolean removeByPictureId(String pictureId) {
+        return this.getBaseMapper().removeByPictureId(pictureId);
     }
 }

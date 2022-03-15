@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
-import { getAllPicturesApi, getOnePicturesApi } from '@/apis/picture';
-import { PictureInterface } from "@/constants/interface/PictureInterface";
-import { UploadFile } from "element-plus/es/components/upload/src/upload.type";
+import { getAllPicturesApi, getOnePicturesApi, removeOnePictureApi } from '@/apis/picture';
+import { PictureInterface, PictureListInterface } from "@/constants/interface/PictureInterface";
 
 export default defineStore('pictureStore', {
   state: () => ({
@@ -12,7 +11,8 @@ export default defineStore('pictureStore', {
     picturesUrlList: state => state.picturesList.map(_ => ({
       name: _.pictureName,
       url: `/api/view/${_.pictureId}`,
-    })) as UploadFile[],
+      pictureId: _.pictureId,
+    })) as PictureListInterface[],
   },
 
   actions: {
@@ -28,8 +28,15 @@ export default defineStore('pictureStore', {
 
     async getOnePicturesRequest(pictureId: string) {
       try {
-        const result = await getOnePicturesApi(pictureId);
-        return result;
+        return await getOnePicturesApi(pictureId);
+      } catch (error) {
+        return error;
+      }
+    },
+
+    async removeOnePictureRequest(pictureId: string) {
+      try {
+        return await removeOnePictureApi(pictureId);
       } catch (error) {
         return error;
       }
