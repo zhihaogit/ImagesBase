@@ -1,5 +1,7 @@
-FROM openjdk:8-jdk-stretch
-VOLUME /tmp
+FROM openjdk:8-jre-stretch
+RUN mkdir /be
+WORKDIR /be
 ARG JAR_FILE
-ADD target/${JAR_FILE} app.jar
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.jar"]
+COPY /target/${JAR_FILE} /be/app.jar
+# 配置文件使用默认的 application.properties/application.yml
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/be/app.jar", "--spring.config.location=/be/application.yml"]
