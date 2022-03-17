@@ -39,7 +39,7 @@ class BackendApplicationTests {
     @Test
     void parseJwtToken() {
         Claims claims = JwtUtil.tokenParser("eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOjEsImp0aSI6ImltYWdlc19iYXNlIiwiaWF0IjoxNjQxMjg2NTI2LCJleHAiOjE2NDE1NDU3MjZ9.iLiavVDiSPLnw9nIl5dVlb-wLLywp66ti25_elbBMPpqXfZa6vlfka5gup4Zwi5M");
-        System.out.println(claims.get("userId", Long.class));
+//        System.out.println(claims.get("userId", Long.class));
     }
 
     @Test
