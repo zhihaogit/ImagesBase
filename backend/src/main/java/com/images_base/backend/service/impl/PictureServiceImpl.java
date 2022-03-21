@@ -59,10 +59,14 @@ public class PictureServiceImpl extends ServiceImpl<PictureMapper, PictureEntity
     }
 
     @Override
-    public PictureFileVO getOneByPictureId(String pictureId) {
+    public PictureFileVO getOneByPictureId(String pictureId, boolean isComputed) {
         PictureFileVO one = this.getBaseMapper().getOneByPictureId(pictureId);
         if (null == one) {
             throw new BadRequestException("未找到图片");
+        }
+        // 不需要统计次数，则直接返回
+        if (!isComputed) {
+            return one;
         }
         if (!pictureStatService.updateUseTimesOneDay(pictureId)) {
             throw new BadRequestException("统计失败");

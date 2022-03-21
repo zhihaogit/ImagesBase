@@ -19,6 +19,9 @@ export const getAllPicturesApi = () => request({
 export const getOnePicturesApi = (pictureId: string) => request({
   url: `/view/${pictureId}`,
   method: 'GET',
+  params: {
+    c: 1, // 不参与统计使用次数
+  },
 });
 
 /**

@@ -10,7 +10,7 @@ export default defineStore('pictureStore', {
   getters: {
     picturesUrlList: state => state.picturesList.map(_ => ({
       name: _.pictureName,
-      url: `/api/view/${_.pictureId}`,
+      url: `/api/view/${_.pictureId}?c=1`,
       pictureId: _.pictureId,
     })) as PictureListInterface[],
   },
