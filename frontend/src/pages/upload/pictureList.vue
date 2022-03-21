@@ -101,7 +101,7 @@ const handleDownload = (file: PictureListInterface) => {
 
 const handleShare = (file: PictureListInterface) => {
   emit('share', file);
-  copyHandler(`${location.origin}${file.url}`);
+  copyHandler(`${location.origin}/api/view/${file.pictureId}`);
   ElMessage({
     message: 'Copy image url successfully',
     type: 'success',

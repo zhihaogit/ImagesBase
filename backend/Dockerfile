@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-stretch
+FROM openjdk:8-jdk-stretch
 RUN mkdir /be
 WORKDIR /be
 ARG JAR_FILE

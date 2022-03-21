@@ -32,9 +32,10 @@ public interface PictureService {
      * 查看图片
      *
      * @param pictureId
+     * @param isComputed
      * @return
      */
-    PictureFileVO getOneByPictureId(String pictureId);
+    PictureFileVO getOneByPictureId(String pictureId, boolean isComputed);
 
     /**
      * 直接删除单个图片
