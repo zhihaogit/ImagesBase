@@ -36,7 +36,13 @@
     </el-aside>
 
     <el-container>
-      <el-header style="text-align: right; font-size: 12px">
+      <el-header
+        height="56px"
+        :style="{
+          'text-align': 'right',
+          'font-size': '12px'
+        }"
+      >
         <div class="toolbar">
           <span>{{ userInfo.name }}</span>
           <span class="user-logout__separator">|</span>

@@ -1,5 +1,11 @@
 package com.images_base.backend.service;
 
+import com.images_base.backend.modal.vo.picture.PictureStatWeakVO;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author zhengzhihao
  * <p>
@@ -22,4 +28,12 @@ public interface PictureStatService {
      * @return
      */
     boolean updateUseTimesOneDay(String pictureId);
+
+    /**
+     * 获取最近一周 top5使用量图片
+     *
+     * @return
+     */
+    Map<LocalDate, List<PictureStatWeakVO>> getTop5Week();
+
 }

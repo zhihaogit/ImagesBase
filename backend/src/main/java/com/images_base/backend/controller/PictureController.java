@@ -1,6 +1,7 @@
 package com.images_base.backend.controller;
 
 import com.images_base.backend.service.PictureService;
+import com.images_base.backend.util.annotation.ResponseBodyAnnotation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -19,6 +20,7 @@ import java.sql.SQLException;
  */
 @Api(value = "picture", tags = "图片相关")
 @RestController
+@ResponseBodyAnnotation
 @RequestMapping(path = "/picture")
 public class PictureController {
 
