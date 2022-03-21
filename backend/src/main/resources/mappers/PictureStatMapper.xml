@@ -17,4 +17,26 @@
         ORDER BY use_date
         LIMIT 1;
     </select>
+
+    <select id="getTop5IdSumWeekly" resultType="com.images_base.backend.modal.entity.PictureStatEntity">
+        SELECT cs.picture_id, sum( cs.use_times ) AS use_times
+        FROM picture_stat AS cs
+        LEFT JOIN picture_info AS ci ON ci.picture_id = cs.picture_id
+        WHERE ci.is_delete = FALSE
+        AND DATE_SUB( CURDATE(), INTERVAL 7 DAY ) &lt;= cs.use_date
+        GROUP BY cs.picture_id
+        ORDER BY use_times DESC
+        LIMIT 5
+    </select>
+
+    <select id="getTop5Week" resultType="com.images_base.backend.modal.vo.picture.PictureStatWeakVO">
+        SELECT cs.*, ci.picture_name
+        FROM picture_stat AS cs
+        LEFT JOIN picture_info AS ci ON ci.picture_id = cs.picture_id
+        WHERE DATE_SUB( CURDATE(), INTERVAL 7 DAY ) &lt;= cs.use_date
+        AND cs.picture_id IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
 </mapper>

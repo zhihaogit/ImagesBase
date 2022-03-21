@@ -2,10 +2,12 @@ package com.images_base.backend.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.images_base.backend.modal.entity.PictureStatEntity;
+import com.images_base.backend.modal.vo.picture.PictureStatWeakVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author zhengzhihao
@@ -31,4 +33,18 @@ public interface PictureStatMapper extends BaseMapper<PictureStatEntity> {
      * @return
      */
     boolean updateTimesDelete(@Param("entity") PictureStatEntity entity);
+
+    /**
+     * 获取最近一周 top5使用量图片
+     *
+     * @return
+     */
+    List<PictureStatWeakVO> getTop5Week(List<String> ids);
+
+    /**
+     * 获取最近一周 top5使用量及图片ID
+     *
+     * @return
+     */
+    List<PictureStatEntity> getTop5IdSumWeekly();
 }

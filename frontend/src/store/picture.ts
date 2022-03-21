@@ -19,7 +19,7 @@ export default defineStore('pictureStore', {
     async getAllPicturesRequest() {
       try {
         const result = await getAllPicturesApi();
-        this.picturesList = result.data;
+        this.picturesList = result.data.data;
         return result;
       } catch (error) {
         return error;

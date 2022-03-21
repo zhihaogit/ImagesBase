@@ -2,6 +2,7 @@ package com.images_base.backend.controller;
 
 import com.images_base.backend.modal.entity.PictureInfoEntity;
 import com.images_base.backend.service.PictureInfoService;
+import com.images_base.backend.util.annotation.ResponseBodyAnnotation;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.util.List;
  */
 @Api(value = "picture_info", tags = "图片信息相关")
 @RestController
+@ResponseBodyAnnotation
 @RequestMapping(path = "/picture_info")
 public class PictureInfoController {
 
