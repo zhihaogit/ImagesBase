@@ -30,6 +30,7 @@
       </el-form-item>
       <el-form-item label="image">
         <el-upload
+          v-if="visible"
           ref="uploaderRef"
           list-type="picture-card"
           action="/api/picture/upload"
