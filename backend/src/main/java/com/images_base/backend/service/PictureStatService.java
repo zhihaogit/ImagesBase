@@ -36,4 +36,10 @@ public interface PictureStatService {
      */
     Map<LocalDate, List<PictureStatWeakVO>> getTop5Week();
 
+    /**
+     * 获取历史记录中的使用量总和
+     *
+     * @return
+     */
+    long getSumInAllDaysPictures();
 }

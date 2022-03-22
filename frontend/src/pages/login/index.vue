@@ -30,7 +30,7 @@
         <el-form-item>
           <el-button
             type="primary"
-            style="width: 100%"
+            class="login-btn"
             @click="submitForm(loginFormRef)"
           >
             Login
@@ -109,5 +109,9 @@ const submitForm = (formEl: FormInstanceType | undefined) => {
   font-size: 20px;
   font-weight: 800;
   color: var(--el-text-color-regular);
+}
+
+.login-btn {
+  width: 100%;
 }
 </style>

@@ -1,11 +1,8 @@
 <template>
-  <el-container
-    class="layout-container"
-    style="height: 100%"
-  >
+  <el-container class="layout-container">
     <el-aside
       width="200px"
-      style="background-color: rgb(238, 241, 246)"
+      class="layout-aside"
     >
       <el-scrollbar>
         <el-menu
@@ -38,10 +35,7 @@
     <el-container>
       <el-header
         height="56px"
-        :style="{
-          'text-align': 'right',
-          'font-size': '12px'
-        }"
+        class="main-container"
       >
         <div class="toolbar">
           <span>{{ userInfo.name }}</span>
@@ -89,6 +83,19 @@ const logout = () => {
 </script>
 
 <style scoped>
+.layout-container {
+  height: 100%;
+}
+
+.layout-aside {
+  background-color: rgb(238, 241, 246);
+}
+
+.main-container {
+  text-align: right;
+  font-size: 12px;
+}
+
 .layout-container .el-header {
   position: relative;
   background-color: rgb(238, 241, 246);

@@ -68,4 +68,9 @@ public class PictureStatServiceImpl extends ServiceImpl<PictureStatMapper, Pictu
                         Collectors.groupingBy(PictureStatWeakVO::getUseDate)
                 );
     }
+
+    @Override
+    public long getSumInAllDaysPictures() {
+        return this.getBaseMapper().getSumInAllDaysPictures();
+    }
 }

@@ -39,4 +39,8 @@
             #{id}
         </foreach>
     </select>
+    <select id="getSumInAllDaysPictures" resultType="java.lang.Long">
+        SELECT SUM(picture_id)
+        FROM picture_stat;
+    </select>
 </mapper>

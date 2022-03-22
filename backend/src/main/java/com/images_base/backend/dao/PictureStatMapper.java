@@ -47,4 +47,11 @@ public interface PictureStatMapper extends BaseMapper<PictureStatEntity> {
      * @return
      */
     List<PictureStatEntity> getTop5IdSumWeekly();
+
+    /**
+     * 获取历史记录中的使用量总和
+     *
+     * @return
+     */
+    long getSumInAllDaysPictures();
 }

@@ -38,4 +38,16 @@ public class PictureStatController {
     Map<LocalDate, List<PictureStatWeakVO>> getTop5Week() {
         return pictureStatService.getTop5Week();
     }
+
+    /**
+     * 获取历史记录中的使用量总和
+     *
+     * @return
+     */
+    @GetMapping("/sum")
+    @ApiOperation("获取历史记录中的使用量总和")
+    long getSumInAllDaysPictures() {
+        return pictureStatService.getSumInAllDaysPictures();
+    }
+
 }
