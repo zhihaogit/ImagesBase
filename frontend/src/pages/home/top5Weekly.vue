@@ -1,8 +1,6 @@
 <template>
-  <div
-    id="top5_weekly_chart"
-    style="width: 1000px;height:400px;"
-  />
+  <h1>{{ textTitle }}</h1>
+  <div id="top5_weekly_chart" />
 </template>
 <script setup name="top5Weekly" lang="ts">
 import * as echarts from 'echarts';
@@ -10,6 +8,7 @@ import StatStoreStart from '@/store/stat';
 import { onMounted } from 'vue';
 import { Top5WeeklyInterface } from '@/constants/interface/Top5WeeklyInterface';
 
+const textTitle = "最近7天TOP5使用量图片：";
 onMounted(() => {
   const div = document.getElementById('top5_weekly_chart');
   const statStore = StatStoreStart();
@@ -18,13 +17,12 @@ onMounted(() => {
     .then((data): void | PromiseLike<void> => {
       const dataCopy = data as Map<Date, Top5WeeklyInterface>;
       const yAxis = Object.keys(dataCopy).sort() as string[];
-      // const {data} = res.data.data;
       const seriesData = Object.values(dataCopy)
         .reduce((a, v) => ([
           ...a,
           ...v,
         ]), [])
-        .reduce((a, v: Top5WeeklyInterface) => {
+        .reduce((a: { [x: string]: Array<Top5WeeklyInterface>; }, v: Top5WeeklyInterface) => {
           a[v.pictureId] = a[v.pictureId]
             ? [
               ...a[v.pictureId],
@@ -76,3 +74,10 @@ onMounted(() => {
     });
 });
 </script>
+
+<style scoped>
+#top5_weekly_chart {
+  width: 1000px;
+  height: 400px;
+}
+</style>

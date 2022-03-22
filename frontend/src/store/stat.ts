@@ -1,4 +1,4 @@
-import { getTop5WeeklyApi } from "@/apis/stat";
+import { getSumInAllDaysPicturesApi, getTop5WeeklyApi } from "@/apis/stat";
 import { Top5WeeklyInterface } from "@/constants/interface/Top5WeeklyInterface";
 import { defineStore } from "pinia";
 
@@ -34,5 +34,14 @@ export default defineStore('statStore', {
         return error;
       }
     },
+
+    async getSumInAllDaysPicturesRequest() {
+      try {
+        const res = await getSumInAllDaysPicturesApi();
+        return res.data.data;
+      } catch (error) {
+        return error;
+      }
+    }
   }
 });

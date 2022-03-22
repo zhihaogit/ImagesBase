@@ -18,7 +18,7 @@
         </span>
         <span @click="handlePictureCardPreview(file)">
           <el-icon>
-            <zoom-in />
+            <ZoomIn />
           </el-icon>
         </span>
         <span @click="handleDownload(file)">
@@ -36,7 +36,7 @@
   </div>
 </template>
 
-<script setup lang="ts" name="ListItem">
+<script setup lang="ts" name="listItem">
 import downloadHanlder from '@/utils/download';
 import { ZoomIn, Download, Delete, Share } from '@element-plus/icons-vue';
 import pictureStoreStart from "@/store/picture";
