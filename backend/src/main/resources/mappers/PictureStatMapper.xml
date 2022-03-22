@@ -40,7 +40,7 @@
         </foreach>
     </select>
     <select id="getSumInAllDaysPictures" resultType="java.lang.Long">
-        SELECT SUM(picture_id)
+        SELECT SUM(use_times)
         FROM picture_stat;
     </select>
 </mapper>

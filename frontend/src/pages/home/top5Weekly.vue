@@ -1,18 +1,23 @@
 <template>
   <h1>{{ textTitle }}</h1>
-  <div id="top5_weekly_chart" />
+  <div
+    id="top5_weekly_chart"
+    ref="top5WeeklyChartRef"
+  />
 </template>
 <script setup name="top5Weekly" lang="ts">
 import * as echarts from 'echarts';
 import StatStoreStart from '@/store/stat';
-import { onMounted } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { Top5WeeklyInterface } from '@/constants/interface/Top5WeeklyInterface';
 
+const statStore = StatStoreStart();
 const textTitle = "最近7天TOP5使用量图片：";
+const chart = ref();
+const top5WeeklyChartRef = ref();
+
 onMounted(() => {
-  const div = document.getElementById('top5_weekly_chart');
-  const statStore = StatStoreStart();
-  const chart = echarts.init(div as HTMLElement);
+  chart.value = echarts.init(top5WeeklyChartRef.value);
   statStore.getTop5WeeklyRequest()
     .then((data): void | PromiseLike<void> => {
       const dataCopy = data as Map<Date, Top5WeeklyInterface>;
@@ -70,14 +75,18 @@ onMounted(() => {
         },
         series,
       };
-      chart.setOption(option);
+      chart.value.setOption(option);
     });
+});
+
+onUnmounted(() => {
+  chart.value = null;
 });
 </script>
 
 <style scoped>
 #top5_weekly_chart {
-  width: 1000px;
+  width: 100%;
   height: 400px;
 }
 </style>
