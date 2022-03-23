@@ -19,7 +19,7 @@
 <script setup name="top5Weekly" lang="ts">
 import * as echarts from 'echarts';
 import StatStoreStart from '@/store/stat';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { markRaw, onMounted, onUnmounted, ref } from 'vue';
 import { Top5WeeklyInterface } from '@/constants/interface/Top5WeeklyInterface';
 
 const statStore = StatStoreStart();
@@ -28,7 +28,7 @@ const chart = ref();
 const top5WeeklyChartRef = ref();
 
 onMounted(() => {
-  chart.value = echarts.init(top5WeeklyChartRef.value);
+  chart.value = markRaw(echarts.init(top5WeeklyChartRef.value));
   statStore.getTop5WeeklyRequest()
     .then((data): void | PromiseLike<void> => {
       const dataCopy = data as Map<Date, Top5WeeklyInterface>;
