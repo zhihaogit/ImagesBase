@@ -1,5 +1,16 @@
 <template>
-  <h1>{{ textTitle }}</h1>
+  <h1>
+    最近
+    <el-tooltip
+      effect="dark"
+      :content="textTooltip"
+      placement="top-start"
+    >
+      <span class="top5-text__tooltip">
+        7天
+      </span>
+    </el-tooltip>TOP5使用量图片：
+  </h1>
   <div
     id="top5_weekly_chart"
     ref="top5WeeklyChartRef"
@@ -12,7 +23,7 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import { Top5WeeklyInterface } from '@/constants/interface/Top5WeeklyInterface';
 
 const statStore = StatStoreStart();
-const textTitle = "最近7天TOP5使用量图片：";
+const textTooltip = "只统计有使用记录的日期，未必连续";
 const chart = ref();
 const top5WeeklyChartRef = ref();
 
@@ -88,5 +99,9 @@ onUnmounted(() => {
 #top5_weekly_chart {
   width: 100%;
   height: 400px;
+}
+
+.top5-text__tooltip {
+  color: var(--el-color-primary);
 }
 </style>
