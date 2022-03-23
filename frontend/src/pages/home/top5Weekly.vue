@@ -49,7 +49,7 @@ onMounted(() => {
           emphasis: {
             focus: 'series'
           },
-          data: vCopy.map((_: Top5WeeklyInterface) => _.useTimes),
+          data: yAxis.map(_ => vCopy.find(v => v.useDate === _)?.useTimes || 0),
         };
       });
       const option = {
