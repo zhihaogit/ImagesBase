@@ -1,6 +1,6 @@
 export interface Top5WeeklyInterface {
   useTimes: number;
   pictureId: string;
-  useDate: Date;
+  useDate: string;
   pictureName: string;
 }

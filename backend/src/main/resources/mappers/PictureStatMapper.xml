@@ -39,6 +39,7 @@
             #{id}
         </foreach>
     </select>
+
     <select id="getSumInAllDaysPictures" resultType="java.lang.Long">
         SELECT SUM(use_times)
         FROM picture_stat;
