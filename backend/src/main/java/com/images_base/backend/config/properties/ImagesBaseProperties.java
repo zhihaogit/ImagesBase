@@ -22,6 +22,18 @@ public class ImagesBaseProperties {
     @NestedConfigurationProperty
     private JwtProperties jwtProperties;
 
+    @Autowired
+    @NestedConfigurationProperty
+    private JedisProperties jedisProperties;
+
+    public JedisProperties getJedisProperties() {
+        return jedisProperties;
+    }
+
+    public void setJedisProperties(JedisProperties jedisProperties) {
+        this.jedisProperties = jedisProperties;
+    }
+
     public SwaggerProperties getSwaggerProperties() {
         return swaggerProperties;
     }
