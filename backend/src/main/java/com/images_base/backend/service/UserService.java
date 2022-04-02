@@ -67,4 +67,11 @@ public interface UserService extends IService<UserEntity> {
      * @return UserFeatVO
      */
     UserFeatVO getUserFeatsInfo(Long id);
+
+    /**
+     * 用户登出接口
+     *
+     * @return
+     */
+    boolean logout();
 }

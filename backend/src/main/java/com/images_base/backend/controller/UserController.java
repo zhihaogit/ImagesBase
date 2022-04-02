@@ -89,4 +89,14 @@ public class UserController {
         return userService.getUserInfo();
     }
 
+    /**
+     * 用户登出接口
+     *
+     * @return boolean
+     */
+    @GetMapping("/logout")
+    @ApiOperation(value = "用户登出接口")
+    boolean userLogout() {
+        return userService.logout();
+    }
 }

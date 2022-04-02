@@ -17,6 +17,7 @@ import com.images_base.backend.service.RoleService;
 import com.images_base.backend.service.UserRoleService;
 import com.images_base.backend.service.UserService;
 import com.images_base.backend.util.CheckPasswordUtil;
+import com.images_base.backend.util.JedisUtil;
 import com.images_base.backend.util.JwtUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +59,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
     @Autowired
     private UserRoleService userRoleService;
+
+    @Autowired
+    JedisUtil jedisUtil;
 
     @Override
     public ResponseBodyVO register(UserRegisterDTO user) {
@@ -103,6 +107,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         Long userId = principal.getId();
         String token = JwtUtil.tokenBuilder(userId);
         logger.info("login request user-id: {}, token: {}", userId, token);
+        jedisUtil.setUser(userId, token);
         Map<String, String> tokenMap = new HashMap<>(1);
         tokenMap.put("token", token);
         return tokenMap;
@@ -133,5 +138,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     @Override
     public UserFeatVO getUserFeatsInfo(Long id) {
         return this.getBaseMapper().getUserFeatsInfo(id, null);
+    }
+
+    @Override
+    public boolean logout() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long id = (Long) authentication.getPrincipal();
+        logger.info("Logout user id: {}", id);
+        jedisUtil.delUser(id);
+        return true;
     }
 }

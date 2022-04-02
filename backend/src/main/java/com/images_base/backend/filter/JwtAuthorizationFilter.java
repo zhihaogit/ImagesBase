@@ -4,6 +4,7 @@ import com.images_base.backend.exception.UnauthorizedException;
 import com.images_base.backend.modal.entity.JwtUser;
 import com.images_base.backend.modal.vo.user.UserFeatVO;
 import com.images_base.backend.service.UserService;
+import com.images_base.backend.util.JedisUtil;
 import com.images_base.backend.util.JwtUserFactory;
 import com.images_base.backend.util.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -31,6 +32,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Autowired
     UserService userService;
 
+    @Autowired
+    JedisUtil jedisUtil;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("token");
@@ -38,11 +42,18 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             try {
                 Claims claims = JwtUtil.tokenParser(token);
                 Long userId = claims.get("userId", Long.class);
+
+                if (!jedisUtil.checkUserValid(userId)) {
+                    throw new UnauthorizedException("未认证用户");
+                }
+
                 UserFeatVO user = userService.getUserFeatsInfo(userId);
                 JwtUser jwtUser = JwtUserFactory.create(user);
-                SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userId, null, jwtUser.getAuthorities()));
+                SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userId,
+                        null,
+                        jwtUser.getAuthorities()));
             } catch (Exception e) {
-                throw new UnauthorizedException("token解析失败");
+                throw new UnauthorizedException("未认证用户");
             }
         }
         // 放行请求
