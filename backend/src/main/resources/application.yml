@@ -12,6 +12,17 @@ spring:
     password: 123456789
 
 images-base-properties:
+  jedis-properties:
+    host: 127.0.0.1
+    port: 6379
+    user: default
+    password: 123456789
+    database: 0
+    timeout: 3000
+    max-total: 8
+    max-wait: 1
+    max-idle: 8
+    min-idle: 0
   swagger-properties:
     enable: true
     title: "图床项目API"
@@ -40,8 +51,7 @@ mybatis-plus:
     - classpath:/mappers/*.xml
   configuration:
     # 支持Entity中字段定义为Java Enum枚举类型
-    default-enum-type-handler:
-      org.apache.ibatis.type.EnumOrdinalTypeHandler
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
     # 解决查询返回结果含null没有对应字段值问题
     map-underscore-to-camel-case: true
     # 存储字段策略 0:忽略判断; 1:非null判断; 2:非null非空值判断

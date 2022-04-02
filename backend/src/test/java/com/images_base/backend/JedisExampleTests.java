@@ -1,10 +1,13 @@
 package com.images_base.backend;
 
 import com.images_base.backend.config.properties.JedisProperties;
+import com.images_base.backend.util.JedisUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
 
 /**
  * @author zhengzhihao
@@ -14,9 +17,11 @@ import redis.clients.jedis.Jedis;
 @SpringBootTest
 class JedisExampleTests {
 
-
     @Autowired
     JedisProperties jedisProperties;
+
+    @Autowired
+    JedisUtil jedisUtil;
 
     @Test
     void testJedisConnect() {
@@ -28,4 +33,31 @@ class JedisExampleTests {
         System.out.println(nameTest);
         jedis.close();
     }
+
+    @Test
+    void testJedisPoolConnect() {
+        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig,
+                jedisProperties.getHost(),
+                jedisProperties.getPort(),
+                jedisProperties.getUser(),
+                jedisProperties.getPassword());
+
+        Jedis resource = jedisPool.getResource();
+
+        resource.set("name_pool_test", "pool");
+
+        String name_pool_test = resource.get("name_pool_test");
+        System.out.println(name_pool_test);
+
+        resource.close();
+    }
+
+    @Test
+    void testJedisUtils() {
+        String name_pool_test = jedisUtil.getRedis().get("name_pool_test");
+        System.out.println(name_pool_test);
+
+    }
+
 }
