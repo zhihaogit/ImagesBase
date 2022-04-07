@@ -8,6 +8,7 @@
         ref="loginFormRef"
         :model="loginForm"
         :rules="rules"
+        :disabled="isLoginBtnLoading"
         label-position="top"
         label-width="120px"
       >
@@ -31,6 +32,7 @@
           <el-button
             type="primary"
             class="login-btn"
+            :loading="isLoginBtnLoading"
             @click="submitForm(loginFormRef)"
           >
             Login
@@ -49,6 +51,7 @@ import type { FormInstanceType } from "@/constants/type/FormInstanceType";
 import { useRouter } from "vue-router";
 import { RouterNameEnum } from "@/constants/enum/RouterNameEnum";
 
+const isLoginBtnLoading = ref(false);
 const userStore = userStoreStart();
 const router = useRouter();
 const pageTitle = "LOGIN";
@@ -75,12 +78,15 @@ const rules = reactive({
 });
 
 const submitForm = (formEl: FormInstanceType | undefined) => {
-  if (!formEl) return;
+  if (!formEl || isLoginBtnLoading.value) return;
   formEl.validate((valid) => {
     if (valid) {
-      userStore.loginRequest(encode(JSON.stringify(loginForm))).then(() => {
-        router.replace(RouterNameEnum.HOME);
-      });
+      isLoginBtnLoading.value = true;
+      userStore
+        .loginRequest(encode(JSON.stringify(loginForm)))
+        .then(() => router.replace(RouterNameEnum.HOME))
+        .catch((e) => Promise.reject(e))
+        .finally(() => isLoginBtnLoading.value = false);
     }
   });
 };

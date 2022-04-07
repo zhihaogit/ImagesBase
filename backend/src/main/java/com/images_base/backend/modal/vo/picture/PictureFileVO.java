@@ -3,6 +3,7 @@ package com.images_base.backend.modal.vo.picture;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -11,7 +12,9 @@ import java.util.Arrays;
  * Created on 2022/3/15
  */
 @ApiModel("图片下载VO")
-public class PictureFileVO {
+public class PictureFileVO implements Serializable {
+
+    public static final long serialVersionUID = 2L;
 
     @ApiModelProperty("图片散列ID")
     private String pictureId;

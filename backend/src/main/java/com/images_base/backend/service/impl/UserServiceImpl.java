@@ -29,6 +29,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -59,9 +60,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
     @Autowired
     private UserRoleService userRoleService;
-
-    @Autowired
-    JedisUtil jedisUtil;
 
     @Override
     public ResponseBodyVO register(UserRegisterDTO user) {
@@ -107,7 +105,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         Long userId = principal.getId();
         String token = JwtUtil.tokenBuilder(userId);
         logger.info("login request user-id: {}, token: {}", userId, token);
-        jedisUtil.setUser(userId, token);
+        setUserToRedis(userId, token);
         Map<String, String> tokenMap = new HashMap<>(1);
         tokenMap.put("token", token);
         return tokenMap;
@@ -144,8 +142,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     public boolean logout() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long id = (Long) authentication.getPrincipal();
+        Jedis redis = JedisUtil.getRedis();
+        redis.del(JedisUtil.USER_TOKEN_KEY + id);
         logger.info("Logout user id: {}", id);
-        jedisUtil.delUser(id);
+        redis.close();
         return true;
+    }
+
+    /**
+     * 在 redis中重新设置 user
+     *
+     * @param userId
+     * @param token
+     */
+    private void setUserToRedis(long userId, String token) {
+        Jedis redis = JedisUtil.getRedis();
+        String key = JedisUtil.USER_TOKEN_KEY + userId;
+        if (redis.exists(key)) {
+            redis.del(key);
+        }
+        redis.setex(key, JedisUtil.SECONDS_72H, token);
+        redis.close();
+        logger.info("Set user to redis by key: {}", key);
     }
 }

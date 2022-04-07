@@ -53,5 +53,5 @@ public interface PictureStatMapper extends BaseMapper<PictureStatEntity> {
      *
      * @return
      */
-    long getSumInAllDaysPictures();
+    Long getSumInAllDaysPictures();
 }

@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import redis.clients.jedis.Jedis;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -32,9 +33,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Autowired
     UserService userService;
 
-    @Autowired
-    JedisUtil jedisUtil;
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("token");
@@ -43,9 +41,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 Claims claims = JwtUtil.tokenParser(token);
                 Long userId = claims.get("userId", Long.class);
 
-                if (!jedisUtil.checkUserValid(userId)) {
+                Jedis jedis = JedisUtil.getRedis();
+                String key = JedisUtil.USER_TOKEN_KEY + userId;
+                if (!jedis.exists(key)) {
                     throw new UnauthorizedException("未认证用户");
                 }
+                jedis.close();
 
                 UserFeatVO user = userService.getUserFeatsInfo(userId);
                 JwtUser jwtUser = JwtUserFactory.create(user);

@@ -25,3 +25,14 @@ export const userInfoApi = () => request({
   url: '/user/info',
   method: 'GET',
 });
+
+/**
+ * 登出接口
+ *
+ * @param data - string
+ * @returns 
+ */
+ export const logoutApi = () => request({
+  url: '/user/logout',
+  method: 'GET',
+});

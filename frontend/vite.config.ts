@@ -17,7 +17,15 @@ export default defineConfig({
         rewrite: url => {
           return url.replace(/^\/api/, '');
         },
-      }
+      },
+      '^/images': {
+        target: 'http://localhost:8000/',
+        // target: 'http://119.3.210.172:18000/',
+        changeOrigin: true,
+        rewrite: url => {
+          return url.replace(/^\/images/, '');
+        },
+      },
     },
   },
   resolve: {

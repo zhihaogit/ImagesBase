@@ -18,9 +18,8 @@ images-base-properties:
     user: default
     password: 123456789
     database: 0
-    timeout: 3000
-    max-total: 8
-    max-wait: 1
+    max-total: 100
+    max-wait: 3000
     max-idle: 8
     min-idle: 0
   swagger-properties:

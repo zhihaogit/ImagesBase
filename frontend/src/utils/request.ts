@@ -31,15 +31,16 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
   response => response,
   error => {
-    if (HttpStatusEnum.UNAUTHORIZED === error.response.status) {
+    if (HttpStatusEnum.UNAUTHORIZED === error?.response?.status) {
       ElMessage.error(error.response.data.msg);
-      if (RouterNameEnum.LOGIN !== router.currentRoute.value.name) {
-        router.push(RouterNameEnum.LOGIN);
-      }
-    } else if (HttpStatusEnum.NOT_FOUND === error.response.status) {
+      if (RouterNameEnum.LOGIN !== router.currentRoute.value.name) router.replace(RouterNameEnum.LOGIN);
+    } else if (HttpStatusEnum.NOT_FOUND === error?.response?.status) {
       ElMessage.error(error.response.statusText);
+    } else if ('ECONNABORTED' === error?.code) {
+      console.log('ECONNABORTED' === error.code, error.message)
+      ElMessage.error(error.message);
     } else {
-      ElMessage.error(error.response.statusText);
+      ElMessage.error(error?.message || error?.response?.statusText);
     }
     return Promise.reject(error);
   }

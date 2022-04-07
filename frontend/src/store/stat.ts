@@ -31,7 +31,8 @@ export default defineStore('statStore', {
               })
         }), {}) as Map<Date, Top5WeeklyInterface>;
       } catch (error) {
-        return error;
+        return Promise.reject(error);
+
       }
     },
 
@@ -40,7 +41,8 @@ export default defineStore('statStore', {
         const res = await getSumInAllDaysPicturesApi();
         return res.data.data;
       } catch (error) {
-        return error;
+        return Promise.reject(error);
+
       }
     }
   }

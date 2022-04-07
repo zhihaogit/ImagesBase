@@ -20,9 +20,6 @@ class JedisExampleTests {
     @Autowired
     JedisProperties jedisProperties;
 
-    @Autowired
-    JedisUtil jedisUtil;
-
     @Test
     void testJedisConnect() {
         Jedis jedis = new Jedis(jedisProperties.getHost(), jedisProperties.getPort());
@@ -55,9 +52,10 @@ class JedisExampleTests {
 
     @Test
     void testJedisUtils() {
-        String name_pool_test = jedisUtil.getRedis().get("name_pool_test");
+        Jedis redis = JedisUtil.getRedis();
+        String name_pool_test = redis.get("name_pool_test");
         System.out.println(name_pool_test);
-
+        redis.close();
     }
 
 }

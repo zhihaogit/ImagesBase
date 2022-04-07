@@ -65,6 +65,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { RouterNameEnum } from '@/constants/enum/RouterNameEnum';
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
+import { ElMessage } from 'element-plus';
 
 const router = useRouter();
 const route = useRoute();
@@ -77,8 +78,14 @@ const activePath = ref(route.path);
 const activeRoutes = computed(() => routes.filter(route => route.meta.isMenuShow));
 
 const logout = () => {
-  Cookies.remove('token');
-  router.push(RouterNameEnum.LOGIN);
+  userStore.logoutRequest()
+    .then(() => {
+      Cookies.remove('token');
+      router.replace(RouterNameEnum.LOGIN);
+    })
+    .catch(() => {
+      ElMessage.error("退出登录失败");
+    });
 };
 </script>
 

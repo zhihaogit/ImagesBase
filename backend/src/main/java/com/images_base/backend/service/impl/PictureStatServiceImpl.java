@@ -71,6 +71,9 @@ public class PictureStatServiceImpl extends ServiceImpl<PictureStatMapper, Pictu
 
     @Override
     public long getSumInAllDaysPictures() {
-        return this.getBaseMapper().getSumInAllDaysPictures();
+        Long times = this.getBaseMapper().getSumInAllDaysPictures();
+        return null == times
+                ? 0L
+                : times;
     }
 }

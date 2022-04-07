@@ -1,7 +1,10 @@
 import { defineStore } from "pinia";
-import { loginApi, userInfoApi } from '@/apis/user';
+import { loginApi, logoutApi, userInfoApi } from '@/apis/user';
 import Cookies from 'js-cookie'
 import { UserInfoInterface } from "@/constants/interface/UserInterface";
+import { ElMessage } from "element-plus";
+import { RouterNameEnum } from "@/constants/enum/RouterNameEnum";
+import router from "@/router";
 
 export default defineStore('userStore', {
   state: () => ({
@@ -18,7 +21,7 @@ export default defineStore('userStore', {
         await this.userInfoRequest();
         return result;
       } catch (error) {
-        return error;
+        return Promise.reject(error);
       }
     },
 
@@ -28,7 +31,19 @@ export default defineStore('userStore', {
         this.userInfo = result.data.data;
         return result;
       } catch (error) {
-        return error;
+        ElMessage.error("获取用户信息失败");
+        await logoutApi();
+        Cookies.remove('token');
+        router.replace(RouterNameEnum.LOGIN);
+        return Promise.reject(error);
+      }
+    },
+
+    async logoutRequest() {
+      try {
+        return await logoutApi();
+      } catch (error) {
+        return Promise.reject(error);
       }
     },
   }

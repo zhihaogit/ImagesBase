@@ -10,7 +10,7 @@ export default defineStore('pictureStore', {
   getters: {
     picturesUrlList: state => state.picturesList.map(_ => ({
       name: _.pictureName,
-      url: `/api/view/${_.pictureId}?c=1`,
+      url: `/images/view/${_.pictureId}?c=1`,
       pictureId: _.pictureId,
     })) as PictureListInterface[],
   },
@@ -22,7 +22,8 @@ export default defineStore('pictureStore', {
         this.picturesList = result.data.data;
         return result;
       } catch (error) {
-        return error;
+        return Promise.reject(error);
+
       }
     },
 
@@ -30,7 +31,8 @@ export default defineStore('pictureStore', {
       try {
         return await getOnePicturesApi(pictureId);
       } catch (error) {
-        return error;
+        return Promise.reject(error);
+
       }
     },
 
@@ -38,7 +40,8 @@ export default defineStore('pictureStore', {
       try {
         return await removeOnePictureApi(pictureId);
       } catch (error) {
-        return error;
+        return Promise.reject(error);
+
       }
     },
   }
