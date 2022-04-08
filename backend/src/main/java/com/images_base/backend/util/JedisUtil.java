@@ -28,13 +28,7 @@ public class JedisUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(JedisUtil.class);
 
-    public static String host;
-
-    public static int port;
-
-    public static String password;
-
-    public static String user;
+    public static String url;
 
     public static int maxTotal;
 
@@ -60,10 +54,7 @@ public class JedisUtil {
 
         return new JedisPool(
                 jedisPoolConfig,
-                JedisUtil.host,
-                JedisUtil.port,
-                JedisUtil.user,
-                JedisUtil.password
+                JedisUtil.url
         );
     }
 
@@ -89,26 +80,11 @@ public class JedisUtil {
         return jedis;
     }
 
-    @Value("${images-base-properties.jedis-properties.password}")
-    public void setPassword(String password) {
-        JedisUtil.password = password;
+    @Value("${images-base-properties.jedis-properties.url}")
+    public void setUrl(String url) {
+        JedisUtil.url = url;
     }
-
-    @Value("${images-base-properties.jedis-properties.host}")
-    public void setHost(String host) {
-        JedisUtil.host = host;
-    }
-
-    @Value("${images-base-properties.jedis-properties.port}")
-    public void setPort(int port) {
-        JedisUtil.port = port;
-    }
-
-    @Value("${images-base-properties.jedis-properties.user}")
-    public void setUser(String user) {
-        JedisUtil.user = user;
-    }
-
+    
     @Value("${images-base-properties.jedis-properties.max-total}")
     public void setMaxTotal(int maxTotal) {
         JedisUtil.maxTotal = maxTotal;

@@ -13,15 +13,10 @@ spring:
 
 images-base-properties:
   jedis-properties:
-    host: 127.0.0.1
-    port: 6379
-    user: default
-    password: 123456789
+    url: redis://default:123456789@127.0.0.1:6379
     database: 0
     max-total: 100
-    max-wait: 3000
-    max-idle: 8
-    min-idle: 0
+    max-wait: 10000
   swagger-properties:
     enable: true
     title: "图床项目API"
