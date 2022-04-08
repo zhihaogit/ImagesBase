@@ -17,6 +17,8 @@ images-base-properties:
     database: 0
     max-total: 100
     max-wait: 10000
+    max-idle: 8
+    min-idle: 0
   swagger-properties:
     enable: true
     title: "图床项目API"
